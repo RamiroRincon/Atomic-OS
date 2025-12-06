@@ -21,7 +21,14 @@ flatpak install -y flathub \
     org.gnome.Evince \
     org.gnome.Loupe
 
-# 3. Apply Integration (Theme/Fonts)
+# 3. Install Gaming Apps & Extras (Removable by user later)
+# - Steam
+# - Lutris
+flatpak install -y flathub \
+    com.valvesoftware.Steam \
+    net.lutris.Lutris
+
+# 4. Apply Integration (Theme/Fonts)
 # Allow all Flatpaks to read system config (GTK themes/fonts)
 flatpak override --filesystem=xdg-config/gtk-3.0:ro
 flatpak override --filesystem=xdg-config/gtk-4.0:ro
@@ -32,7 +39,7 @@ flatpak override --filesystem=~/.themes:ro
 flatpak override --filesystem=/usr/share/fonts:ro 
 flatpak override --filesystem=~/.local/share/fonts:ro
 
-# 4. Mark as done so it doesn't run next boot
+# 5. Mark as done so it doesn't run next boot
 touch /var/lib/flatpak-firstboot-done
 
 echo "First Boot Setup Complete."
