@@ -16,13 +16,8 @@ rpm-ostree override remove \
     gnome-logs \
     gnome-font-viewer \
     gnome-disk-utility \
-    baobab \
     evince \
-    eog \
     loupe \
-    snapshot \
-    simple-scan \
-    totem \
     yelp \
     htop \
     nvtop \
