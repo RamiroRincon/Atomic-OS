@@ -1,14 +1,27 @@
 #!/usr/bin/env bash
 set -eox pipefail
 
-# Swap Fedora branding for Generic
-# This changes the logo in "About", boot splash, etc.
-rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-    generic-logos \
-    generic-release
+## Fedora → Generic branding swap
+## Missing packages are ignored safely
 
-# Optional: Overwrite OS-Release to your own name
-# Be careful here, some scripts rely on ID=fedora
-sed -i 's/PRETTY_NAME="Fedora Linux"/PRETTY_NAME="Atomic-OS"/g' /usr/lib/os-release
+REPLACEMENTS=(
+  "fedora-logos generic-logos-httpd"
+  "fedora-release generic-release"
+)
+
+for pair in "${REPLACEMENTS[@]}"; do
+    old_pkg=$(echo "$pair" | cut -d' ' -f1)
+    new_pkg=$(echo "$pair" | cut -d' ' -f2)
+
+    rpm-ostree override replace \
+      --experimental \
+      --from repo=updates \
+      "$old_pkg" \
+      "$new_pkg" \
+      || echo "Skipping branding replace: $old_pkg → $new_pkg (not present)"
+done
+
+## Optional: override PRETTY_NAME
+if grep -q 'PRETTY_NAME="Fedora' /usr/lib/os-release; then
+    sed -i 's/PRETTY_NAME="Fedora[^"]*"/PRETTY_NAME="Atomic-OS"/g' /usr/lib/os-release
+fi
