@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ouex pipefail
+set -eox pipefail
 
 ##### GNOME SETUP #####
 
