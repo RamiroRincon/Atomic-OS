@@ -15,7 +15,6 @@ PACKAGES=(
   gnome-logs
   gnome-font-viewer
   gnome-disk-utility
-  baobab
   evince
   eog
   loupe
