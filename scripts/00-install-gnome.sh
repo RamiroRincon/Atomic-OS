@@ -17,7 +17,8 @@ rpm-ostree install \
     xdg-user-dirs-gtk \
     adwaita-icon-theme \
     gsettings-desktop-schemas \
-    gnome-backgrounds
+    gnome-backgrounds \
+    gnome-backgrounds-extras
 
 # GDM Configuration (Wayland)
 mkdir -p /etc/gdm
