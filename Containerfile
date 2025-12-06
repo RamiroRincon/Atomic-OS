@@ -7,18 +7,17 @@ COPY assets /assets
 FROM ghcr.io/ublue-os/base-main:latest
 
 # 3. Execution Stage
-# We copy scripts to /tmp so we can chmod them (ctx is read-only)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    cp -r /ctx/scripts /tmp/scripts && \
+    # Copy assets to /tmp (writable) in case scripts need to move them
     cp -r /ctx/assets /tmp/assets && \
-    chmod -R +x /tmp/scripts && \
-    /tmp/scripts/00-install-gnome.sh && \
-    /tmp/scripts/01-remove-bloat.sh && \
-    /tmp/scripts/02-branding.sh && \
-    /tmp/scripts/03-setup-firstboot.sh
+    # Run scripts directly with bash to avoid permission issues
+    bash /ctx/scripts/00-install-gnome.sh && \
+    bash /ctx/scripts/01-remove-bloat.sh && \
+    bash /ctx/scripts/02-branding.sh && \
+    bash /ctx/scripts/03-setup-firstboot.sh
 
 # 4. Linting Stage
 RUN bootc container lint
