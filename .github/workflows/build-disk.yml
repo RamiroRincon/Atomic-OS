@@ -41,6 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         disk-type: ["qcow2", "anaconda-iso"]
+
     permissions:
       contents: read
       packages: read
@@ -59,21 +60,20 @@ jobs:
           echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
 
-      - name: Install dependencies (arm64 only)
+      - name: Install dependencies
         if: inputs.platform == 'arm64'
         run: |
-          set -x
           sudo apt update -y
           sudo apt install -y podman
 
       - name: Maximize build space
         if: inputs.platform != 'arm64'
-        uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e
+        uses: ublue-os/remove-unwanted-software@v9
         with:
           remove-codeql: true
 
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@v4
 
       - name: Build disk images
         id: build
@@ -84,9 +84,9 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: ${{ matrix.disk-type }}
-          additional-args: --use-librepo=True
+          additional-args: --use-librepo=True --rootfs xfs
 
-      - name: Upload disk images and checksums to Artifacts
+      - name: Upload disk images to Job Artifacts
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
@@ -110,4 +110,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y rclone
-          rclone copy "$SOURCE_DIR" "S3:${{ secrets.S3_BUCKET_NAME }}"
+          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}
