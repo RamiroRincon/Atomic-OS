@@ -16,6 +16,8 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # - Evince (Documents)
 # - Loupe (Images)
 flatpak install -y flathub \
+    app.devsuite.Ptyxis \
+    io.github.kolunmi.Bazaar \
     org.gnome.TextEditor \
     org.gnome.Calculator \
     org.gnome.Evince \
