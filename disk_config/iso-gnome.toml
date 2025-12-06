@@ -2,12 +2,8 @@
 # We do not need to disable modules. The default behavior is correct.
 # We do not need a %post script. The builder automatically installs the image defined in build-disk.yml.
 
-[customizations.user]
 # It is highly recommended to add a user here, specifically for Atomic desktops
 # so you don't run into issues with the first-boot setup.
-# Replace 'ramiro' and the ssh-key with your actual details if desired.
-# If you prefer to set the password in the GUI during install, you can omit this block,
-# BUT you must ensure the "Users" module is NOT disabled (which we fixed by removing the disable block).
 
 [[customizations.user]]
 name = "admin"
