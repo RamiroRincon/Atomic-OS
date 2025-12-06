@@ -1,20 +1,16 @@
-[customizations.installer.kickstart]
-contents = """
-%post
-bootc switch --mutate-in-place --transport registry ghcr.io/ramirorincon/atomic-os:latest
-%end
-"""
+[customizations.installer]
+# We do not need to disable modules. The default behavior is correct.
+# We do not need a %post script. The builder automatically installs the image defined in build-disk.yml.
 
-[customizations.installer.modules]
-enable = [
-  "org.fedoraproject.Anaconda.Modules.Storage",
-  "org.fedoraproject.Anaconda.Modules.Runtime"
-]
-disable = [
-  "org.fedoraproject.Anaconda.Modules.Network",
-  "org.fedoraproject.Anaconda.Modules.Security",
-  "org.fedoraproject.Anaconda.Modules.Services",
-  "org.fedoraproject.Anaconda.Modules.Users",
-  "org.fedoraproject.Anaconda.Modules.Subscription",
-  "org.fedoraproject.Anaconda.Modules.Timezone"
-]
+[customizations.user]
+# It is highly recommended to add a user here, specifically for Atomic desktops
+# so you don't run into issues with the first-boot setup.
+# Replace 'ramiro' and the ssh-key with your actual details if desired.
+# If you prefer to set the password in the GUI during install, you can omit this block,
+# BUT you must ensure the "Users" module is NOT disabled (which we fixed by removing the disable block).
+
+[[customizations.user]]
+name = "admin"
+description = "Administrator"
+password = "admin" # Change this or use 'key' below for SSH
+groups = ["wheel"]
