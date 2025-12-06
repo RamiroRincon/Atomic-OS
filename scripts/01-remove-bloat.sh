@@ -16,7 +16,6 @@ rpm-ostree override remove \
     gnome-logs \
     gnome-font-viewer \
     gnome-disk-utility \
-    evince \
     loupe \
     yelp \
     htop \
