@@ -16,7 +16,6 @@ PACKAGES=(
   gnome-font-viewer
   gnome-disk-utility
   evince
-  eog
   loupe
   snapshot
   simple-scan
