@@ -46,6 +46,3 @@ systemctl enable gdm.service
 
 # Set graphical target as default
 systemctl set-default graphical.target
-
-# Make this file (build.sh) executable
-chmod +x build_files/build.sh
