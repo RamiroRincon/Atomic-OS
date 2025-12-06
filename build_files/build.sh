@@ -5,8 +5,15 @@ set -eox pipefail
 
 # Install GNOME desktop
 rpm-ostree install \
-    @gnome-desktop \
-    gdm
+    gdm \
+    gnome-shell \
+    mutter \
+    gnome-session \
+    gnome-settings-daemon \
+    gnome-control-center \
+    xdg-desktop-portal-gnome \
+    adwaita-icon-theme \
+    gsettings-desktop-schemas
 
 # Force GDM Wayland-only
 mkdir -p /etc/gdm
