@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # 1. Context Stage: Gathers your custom files
 FROM scratch AS ctx
 COPY scripts /scripts
@@ -9,7 +7,7 @@ COPY assets /assets
 FROM ghcr.io/ublue-os/base-main:latest
 
 # 3. Execution Stage
-# We use mounts to keep caches and bind the scripts temporarily
+# We copy scripts to /tmp so we can chmod them (ctx is read-only)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
