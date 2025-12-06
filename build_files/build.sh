@@ -33,6 +33,16 @@ rpm-ostree install \
     @gnome-desktop \
     gdm
 
+# Remove any Xorg server leftovers (if they get pulled in)
+rpm-ostree override remove \
+    xorg-x11-server-Xorg \
+    xorg-x11-server-common \
+    xorg-x11-drivers \
+    xorg-x11-utils
+
+# Force GDM Wayland-only
+sed -i 's/#WaylandEnable=false/WaylandEnable=true/' /etc/gdm/custom.conf
+
 # Enable the display manager
 systemctl enable gdm.service
 
