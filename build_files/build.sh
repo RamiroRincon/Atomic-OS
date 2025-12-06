@@ -22,3 +22,22 @@ dnf5 install -y tmux
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+####### MY CONFIGURATION STARTS HERE #######
+
+#!/usr/bin/env bash
+set -ouex pipefail
+
+# Install GNOME desktop
+rpm-ostree install \
+    @gnome-desktop \
+    gdm
+
+# Enable the display manager
+systemctl enable gdm.service
+
+# Set graphical target as default
+systemctl set-default graphical.target
+
+# Make this file (build.sh) executable
+chmod +x build_files/build.sh
