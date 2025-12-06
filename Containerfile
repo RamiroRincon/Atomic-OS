@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # 1. Context Stage: Gathers your custom files
 FROM scratch AS ctx
 COPY scripts /scripts
@@ -12,12 +14,13 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    cp -r /ctx/scripts /tmp/scripts && \
     cp -r /ctx/assets /tmp/assets && \
-    chmod +x /ctx/scripts/*.sh && \
-    /ctx/scripts/00-install-gnome.sh && \
-    /ctx/scripts/01-remove-bloat.sh && \
-    /ctx/scripts/02-branding.sh && \
-    /ctx/scripts/03-setup-firstboot.sh
+    chmod -R +x /tmp/scripts && \
+    /tmp/scripts/00-install-gnome.sh && \
+    /tmp/scripts/01-remove-bloat.sh && \
+    /tmp/scripts/02-branding.sh && \
+    /tmp/scripts/03-setup-firstboot.sh
 
 # 4. Linting Stage
 RUN bootc container lint
