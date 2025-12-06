@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -eox pipefail
 
+# Define the list as a standard string or array
 PACKAGES=(
   firefox
   firefox-langpacks
@@ -25,8 +26,12 @@ PACKAGES=(
   htop
   nvtop
   fedora-media-writer
+  fedora-bookmarks
+  fedora-chromium-config
+  epiphany-runtime
+  malcontent-control
 )
 
-for pkg in "${PACKAGES[@]}"; do
-    rpm-ostree override remove "$pkg" || true
-done
+# Convert the array to a space-separated string and run ONE command
+echo "Removing packages..."
+rpm-ostree override remove "${PACKAGES[@]}"
