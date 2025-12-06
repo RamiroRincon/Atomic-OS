@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -ouex pipefail
 
@@ -10,7 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
+# dnf5 install -y tmux 
 
 # Use a COPR Example:
 #
@@ -24,9 +24,6 @@ dnf5 install -y tmux
 systemctl enable podman.socket
 
 ####### MY CONFIGURATION STARTS HERE #######
-
-#!/usr/bin/env bash
-set -ouex pipefail
 
 # Install GNOME desktop
 rpm-ostree install \
