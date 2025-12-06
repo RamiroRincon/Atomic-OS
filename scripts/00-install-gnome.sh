@@ -7,8 +7,6 @@ rpm-ostree install \
     gdm \
     gnome-shell \
     nautilus \
-    gnome-console \
-    gnome-software \
     mutter \
     gnome-session \
     gnome-settings-daemon \
