@@ -34,7 +34,12 @@ rpm-ostree install \
     gdm
 
 # Force GDM Wayland-only
-sed -i 's/#WaylandEnable=false/WaylandEnable=true/' /etc/gdm/custom.conf
+mkdir -p /etc/gdm
+
+cat >/etc/gdm/custom.conf <<EOF
+[daemon]
+WaylandEnable=true
+EOF
 
 # Enable the display manager
 systemctl enable gdm.service
