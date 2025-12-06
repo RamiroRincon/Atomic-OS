@@ -26,7 +26,6 @@ PACKAGES=(
   fedora-media-writer
   fedora-bookmarks
   fedora-chromium-config
-  epiphany-runtime
   malcontent-control
 )
 
