@@ -124,7 +124,7 @@ This should queue your image for the next reboot, which you can do immediately a
 
 ## Containerfile
 
-The [Containerfile](./Containerfile) defines the operations used to customize the selected image.This file is the entrypoint for your image build, and works exactly like a regular podman Containerfile. For reference, please see the [Podman Documentation](https://docs.podman.io/en/latest/Introduction.html).
+The [Containerfile](./Containerfile) defines the operations used to customize the selected image. This file is the entrypoint for your image build, and works exactly like a regular podman Containerfile. For reference, please see the [Podman Documentation](https://docs.podman.io/en/latest/Introduction.html).
 
 ## build.sh
 
