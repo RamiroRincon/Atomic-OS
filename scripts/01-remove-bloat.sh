@@ -5,20 +5,6 @@ set -eox pipefail
 PACKAGES=(
   firefox
   firefox-langpacks
-  gnome-tour
-  gnome-clocks
-  gnome-maps
-  gnome-weather
-  gnome-contacts
-  gnome-calculator
-  gnome-characters
-  gnome-logs
-  gnome-font-viewer
-  gnome-disk-utility
-  loupe
-  snapshot
-  simple-scan
-  totem
   yelp
   htop
   nvtop
