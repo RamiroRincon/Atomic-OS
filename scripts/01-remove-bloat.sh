@@ -22,7 +22,6 @@ PACKAGES=(
   yelp
   htop
   nvtop
-  fedora-media-writer
   fedora-bookmarks
   fedora-chromium-config
   malcontent-control
