@@ -32,6 +32,7 @@ echo "Installing Core Apps..."
 flatpak install -y flathub \
     app.devsuite.Ptyxis \
     io.github.kolunmi.Bazaar \
+    flathub com.mattjakeman.ExtensionManager \
     org.mozilla.firefox \
     org.gnome.TextEditor \
     org.gnome.Calculator \
