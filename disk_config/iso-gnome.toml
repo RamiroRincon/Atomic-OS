@@ -1,12 +1,5 @@
 [customizations.installer]
-# We do not need to disable modules. The default behavior is correct.
-# We do not need a %post script. The builder automatically installs the image defined in build-disk.yml.
-
-# It is highly recommended to add a user here, specifically for Atomic desktops
-# so you don't run into issues with the first-boot setup.
-
-[[customizations.user]]
-name = "admin"
-description = "Administrator"
-password = "admin" # Change this or use 'key' below for SSH
-groups = ["wheel"]
+# This line is crucial. It tells the installer "Do NOT allow the user to create 
+# an account during the USB install phase."
+# This forces the system to defer user creation to the first boot wizard.
+kickstart-content = ["user --disable"]
