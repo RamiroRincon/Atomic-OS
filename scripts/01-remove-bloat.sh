@@ -48,3 +48,6 @@ if [ ${#ACTUALLY_INSTALLED[@]} -gt 0 ]; then
 else
     echo "Nothing to remove!"
 fi
+
+# 4. Remove the lingering Mozilla folder from the skeleton directory
+rm -rf /etc/skel/.mozilla
