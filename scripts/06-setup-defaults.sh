@@ -14,6 +14,7 @@ cat <<EOF > "$OVERRIDE_FILE"
 # ----------------------------------
 [org.gnome.nautilus.preferences]
 default-folder-viewer='list-view'
+sort-directories-first=true
 
 [org.gnome.nautilus.list-view]
 default-zoom-level='small'
@@ -54,6 +55,7 @@ tap-to-click=true
 
 [org.gnome.desktop.peripherals.mouse]
 natural-scroll=false
+accel-profile='flat'
 
 # ----------------------------------
 # PRIVACY / ANNOYANCES
