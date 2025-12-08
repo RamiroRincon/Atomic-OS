@@ -13,13 +13,17 @@ cat <<EOF > "$OVERRIDE_FILE"
 # FILES (NAUTILUS) SETTINGS
 # ----------------------------------
 [org.gnome.nautilus.preferences]
+# Set view as "list"
 default-folder-viewer='list-view'
+# Sort directories first
 sort-directories-first=true
 
 [org.gnome.nautilus.list-view]
+# Set zoom level to "small"
 default-zoom-level='small'
 
 [org.gtk.Settings.FileChooser]
+# Sort directories first
 sort-directories-first=true
 
 # ----------------------------------
@@ -28,6 +32,7 @@ sort-directories-first=true
 [org.gnome.settings-daemon.plugins.power]
 # Set power profile to "Performance"
 power-profile='performance'
+# Prevent sleep when inactive and connected to power (I think)
 sleep-inactive-ac-type='nothing'
 
 # ----------------------------------
@@ -87,8 +92,8 @@ show-volumes=false
 [org.gnome.desktop.privacy]
 # Disable "Remember recent files"
 remember-recent-files=false
-# Disable auto-download of updates (not needed since we're using ostree)
 [org.gnome.software]
+# Disable auto-download of updates (not needed since we're using ostree)
 download-updates=false
 EOF
 
