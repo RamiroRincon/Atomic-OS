@@ -1,47 +1,49 @@
 #!/bin/bash
+
 set -ouex pipefail
 
-# Helper function to install an extension by UUID
-install_extension() {
-    UUID=$1
-    echo "Installing GNOME Extension: $UUID"
+# 1. Get current GNOME version (e.g., "46")
+GNOME_VERSION=$(gnome-shell --version | cut -d ' ' -f 3 | cut -d . -f 1)
+echo "Detected GNOME Version: $GNOME_VERSION"
 
-    # 1. Get the download URL for the latest version compatible with the current GNOME version
-    # We use curl to query the API and python3 to parse the JSON response (standard on Fedora)
-    VERSION_TAG=$(curl -Lfs "https://extensions.gnome.org/extension-query/?search=$UUID" | \
-        python3 -c "import sys, json; print(json.load(sys.stdin)['extensions'][0]['shell_version_map'].get('46', {}).get('pk', 'none'))")
+# 2. Define the Function to install any extension by UUID
+install_extension() {
+    EXTENSION_UUID=$1
+    echo "--- Installing: $EXTENSION_UUID ---"
     
-    # Note: '46' above targets GNOME 46 (current stable). 
-    # If the API returns 'none', we fallback to the latest available version in the map.
-    if [ "$VERSION_TAG" == "none" ]; then
-         VERSION_TAG=$(curl -Lfs "https://extensions.gnome.org/extension-query/?search=$UUID" | \
-            python3 -c "import sys, json; ext = json.load(sys.stdin)['extensions'][0]; print(max(ext['shell_version_map'].values(), key=lambda x: x['pk'])['pk'])")
+    INSTALL_PATH="/usr/share/gnome-shell/extensions/$EXTENSION_UUID"
+
+    # Query GNOME API for the download URL
+    DOWNLOAD_URL=$(curl -s "https://extensions.gnome.org/extension-info/?uuid=$EXTENSION_UUID&shell_version=$GNOME_VERSION" | python3 -c "import sys, json; data=json.load(sys.stdin); print(data.get('download_url', 'None'))")
+
+    if [ "$DOWNLOAD_URL" == "None" ] || [ -z "$DOWNLOAD_URL" ]; then
+        echo "ERROR: Could not find a compatible version of $EXTENSION_UUID for GNOME $GNOME_VERSION."
+        # Optional: exit 1 # Uncomment to fail the build if an extension is missing
+        return
     fi
 
-    # 2. Download the extension ZIP
-    wget -O "/tmp/extension.zip" "https://extensions.gnome.org/download-extension/$UUID.shell-extension.zip?version_tag=$VERSION_TAG"
+    FULL_URL="https://extensions.gnome.org$DOWNLOAD_URL"
+    echo "Downloading from: $FULL_URL"
 
-    # 3. Determine the install path (Skeleton directory for new users)
-    INSTALL_PATH="/etc/skel/.local/share/gnome-shell/extensions/$UUID"
+    # Download and Unzip
     mkdir -p "$INSTALL_PATH"
+    curl -L "$FULL_URL" -o /tmp/extension.zip
+    unzip -o /tmp/extension.zip -d "$INSTALL_PATH"
+    rm /tmp/extension.zip
 
-    # 4. Unzip and cleanup
-    unzip -q "/tmp/extension.zip" -d "$INSTALL_PATH"
-    rm "/tmp/extension.zip"
-    
-    # 5. Fix permissions so the user owns them after copy
+    # Compile Schemas (if they exist)
+    if [ -d "$INSTALL_PATH/schemas" ]; then
+        echo "Compiling schemas..."
+        glib-compile-schemas "$INSTALL_PATH/schemas"
+    fi
+
+    # Set Permissions
     chmod -R 755 "$INSTALL_PATH"
+    echo "Success!"
 }
 
-# --- EXTENSION LIST ---
-# Add the UUIDs of the extensions you want below.
-# You can find UUIDs in the "Details" section of any extension on extensions.gnome.org
-
-# Dash to Dock (MacOS style dock)
-install_extension "dash-to-dock@micxgx.gmail.com"
-
-# Blur My Shell (Aesthetic improvement)
-install_extension "blur-my-shell@aunetx"
-
-# Logo Menu (Removes Activities button, adds logo)
-install_extension "logomenu@aryan_k"
+# 3. LIST OF EXTENSIONS TO INSTALL
+# Add or remove UUIDs here
+install_extension "dash-to-dock@micxgx.gmail.com" # Dash-to-Dock
+install_extension "blur-my-shell@aunetx" # Blur my Shell
+install_extension "logomenu@ageneau" # Logo Menu (Removes Activities button, adds logo)
