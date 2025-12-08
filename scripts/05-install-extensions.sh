@@ -46,3 +46,4 @@ install_extension() {
 # Add or remove UUIDs here
 install_extension "dash-to-dock@micxgx.gmail.com" # Dash-to-Dock
 install_extension "blur-my-shell@aunetx" # Blur my Shell
+install_extension "ding@rastersoft.com" # DING
