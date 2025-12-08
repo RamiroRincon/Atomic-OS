@@ -18,7 +18,7 @@ install_extension() {
 
     if [ "$DOWNLOAD_URL" == "None" ] || [ -z "$DOWNLOAD_URL" ]; then
         echo "ERROR: Could not find a compatible version of $EXTENSION_UUID for GNOME $GNOME_VERSION."
-        # Optional: exit 1 # Uncomment to fail the build if an extension is missing
+        exit 1 # Uncomment to fail the build if an extension is missing
         return
     fi
 
