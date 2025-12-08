@@ -19,6 +19,9 @@ sort-directories-first=true
 [org.gnome.nautilus.list-view]
 default-zoom-level='small'
 
+[org.gtk.Settings.FileChooser]
+sort-directories-first=true
+
 # ----------------------------------
 # POWER SETTINGS
 # ----------------------------------
