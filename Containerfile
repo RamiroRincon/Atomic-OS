@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/base-main:latest
+FROM ghcr.io/ublue-os/base-main:41
 
 # Copy your scripts and assets
 COPY scripts /tmp/scripts
