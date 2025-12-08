@@ -7,8 +7,18 @@ if [ -f /var/lib/flatpak-firstboot-done ]; then
 fi
 
 echo "Waiting for internet connection..."
+
+# Set a max attempt counter to prevent infinite boot hang
+
+MAX_RETRIES=60
+COUNT=0
 until curl -s --head https://dl.flathub.org > /dev/null; do
+    if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
+        echo "Internet not reachable after 5 minutes. Skipping Flatpak setup."
+        exit 1
+    fi
     sleep 5
+    ((COUNT++))
 done
 
 echo "Running First Boot Setup..."
@@ -17,7 +27,7 @@ echo "Running First Boot Setup..."
 flatpak remote-delete --force flathub || true
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-# 2. Install Core Apps
+# 2. Install Core Apps (System-wide)
 echo "Installing Core Apps..."
 flatpak install -y flathub \
     app.devsuite.Ptyxis \
@@ -28,7 +38,7 @@ flatpak install -y flathub \
     org.gnome.Papers \
     org.gnome.Loupe
 
-# 3. Install Gaming Apps
+# 3. Install Gaming Apps & Extra functionality
 echo "Installing Gaming Apps..."
 flatpak install -y flathub \
     com.valvesoftware.Steam \
@@ -37,10 +47,7 @@ flatpak install -y flathub \
 # 4. Apply Integration
 flatpak override --filesystem=xdg-config/gtk-3.0:ro
 flatpak override --filesystem=xdg-config/gtk-4.0:ro
-flatpak override --filesystem=~/.icons:ro
-flatpak override --filesystem=~/.themes:ro
 flatpak override --filesystem=/usr/share/fonts:ro 
-flatpak override --filesystem=~/.local/share/fonts:ro
 
 # 5. Mark as done
 touch /var/lib/flatpak-firstboot-done
