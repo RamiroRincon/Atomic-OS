@@ -26,6 +26,7 @@ sort-directories-first=true
 # POWER SETTINGS
 # ----------------------------------
 [org.gnome.settings-daemon.plugins.power]
+# Set power profile to "Performance"
 power-profile='performance'
 sleep-inactive-ac-type='nothing'
 
@@ -33,8 +34,11 @@ sleep-inactive-ac-type='nothing'
 # INTERFACE & THEME
 # ----------------------------------
 [org.gnome.desktop.interface]
+# Set Dark Mode
 color-scheme='prefer-dark'
+# Show battery percentage
 show-battery-percentage=true
+# Disable hot corners
 enable-hot-corners=false
 
 # ----------------------------------
@@ -43,9 +47,11 @@ enable-hot-corners=false
 [org.gnome.mutter]
 # Disable dynamic workspaces to enforce a fixed number
 dynamic-workspaces=false
+# Center new windows by default (macOS/Windows behavior)
+center-new-windows=true
 
 [org.gnome.desktop.wm.preferences]
-# Add buttons
+# Add buttons to windows
 button-layout='appmenu:minimize,maximize,close'
 # Set fixed number of workspaces
 num-workspaces=2
@@ -54,18 +60,34 @@ num-workspaces=2
 # INPUT (MOUSE/TRACKPAD)
 # ----------------------------------
 [org.gnome.desktop.peripherals.touchpad]
+# Enable Tap-to-Click
 tap-to-click=true
 
 [org.gnome.desktop.peripherals.mouse]
+# Disable natural scroll
 natural-scroll=false
+# Disable mouse acceleration
 accel-profile='flat'
+
+# ----------------------------------
+# DESKTOP ICONS (REQUIRES DING EXTENSION)
+# ----------------------------------
+# These settings configure the Desktop Icons NG extension 
+[org.gnome.shell.extensions.ding]
+# Show the "home" folder on the Desktop
+show-home=true
+# Show the "trash" folder on the Desktop
+show-trash=true
+# Show external drives on the Desktop
+show-volumes=false
 
 # ----------------------------------
 # PRIVACY / ANNOYANCES
 # ----------------------------------
 [org.gnome.desktop.privacy]
+# Disable "Remember recent files"
 remember-recent-files=false
-
+# Disable auto-download of updates (not needed since we're using ostree)
 [org.gnome.software]
 download-updates=false
 EOF
