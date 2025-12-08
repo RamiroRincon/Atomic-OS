@@ -1,5 +1,1 @@
 [customizations.installer]
-# This line is crucial. It tells the installer "Do NOT allow the user to create 
-# an account during the USB install phase."
-# This forces the system to defer user creation to the first boot wizard.
-kickstart-content = ["user --disable"]
