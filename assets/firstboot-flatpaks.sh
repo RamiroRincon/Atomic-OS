@@ -1,63 +1,115 @@
 #!/usr/bin/env bash
-set -ox pipefail
+# We use pipefail for safety so errors are caught.
+# We DO NOT use 'set -x' because the debug text would break the Zenity loading bar.
+set -o pipefail
 
-# Check if we have already run
-if [ -f /var/lib/flatpak-firstboot-done ]; then
+# Define the flag file (lives in user's home)
+FLAG_FILE="$HOME/.config/firstboot-setup-done"
+
+# 1. CHECK: If we already ran, exit immediately
+if [ -f "$FLAG_FILE" ]; then
     exit 0
 fi
 
-echo "Waiting for internet connection..."
-
-# Set a max attempt counter to prevent infinite boot hang
-
-MAX_RETRIES=60
+# 2. WAIT FOR INTERNET (with UI feedback)
+MAX_RETRIES=12
 COUNT=0
-until curl -s --head https://dl.flathub.org > /dev/null; do
-    if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
-        echo "Internet not reachable after 5 minutes. Skipping Flatpak setup."
-        exit 1
+
+(
+    while true; do
+        # We silence curl output (> /dev/null) so it doesn't break zenity
+        if curl -s --head https://dl.flathub.org > /dev/null; then
+            echo "100" # Done
+            break
+        fi
+        
+        if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
+            echo "ERR" # Timeout
+            break
+        fi
+
+        echo "# Checking internet connection... ($(( 60 - COUNT * 5 ))s remaining)"
+        echo "pulse" 
+        
+        sleep 5
+        ((COUNT++))
+    done
+) | zenity --progress \
+    --title="Finalizing Setup" \
+    --text="Waiting for network..." \
+    --pulsate \
+    --auto-close \
+    --no-cancel \
+    --width=400
+
+# 3. HANDLE OFFLINE STATE
+if ! curl -s --head https://dl.flathub.org > /dev/null; then
+    if zenity --question \
+        --title="Connection Failed" \
+        --text="We could not connect to the internet.\n\nWithout internet, we cannot install core applications.\n\nWould you like to retry?" \
+        --ok-label="Retry" \
+        --cancel-label="Skip Setup"; then
+        exec "$0"
+    else
+        touch "$FLAG_FILE"
+        exit 0
     fi
-    sleep 5
-    ((COUNT++))
-done
+fi
 
-echo "Running First Boot Setup..."
+# 4. INSTALL APPS (SYSTEM-WIDE)
+zenity --info \
+    --title="Admin Rights Needed" \
+    --text="We are about to install applications for ALL users.\n\nYou will be asked for your password to authorize this." \
+    --width=300
 
-# 1. Force Full Flathub
-flatpak remote-delete --force flathub || true
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+APPS="app.devsuite.Ptyxis \
+io.github.kolunmi.Bazaar \
+com.mattjakeman.ExtensionManager \
+net.nokyan.Resources \
+org.mozilla.firefox \
+org.gnome.TextEditor \
+org.gnome.Calculator \
+org.gnome.Papers \
+org.gnome.baobab \
+org.gnome.Snapshot \
+org.gnome.Calendar \
+org.gnome.Decibels \
+org.gnome.Showtime \
+org.gnome.Weather \
+org.gnome.Music \
+org.gnome.Loupe \
+com.valvesoftware.Steam \
+net.lutris.Lutris"
 
-# 2. Install Core Apps (System-wide)
-echo "Installing Core Apps..."
-flatpak install -y flathub \
-    app.devsuite.Ptyxis \
-    io.github.kolunmi.Bazaar \
-    com.mattjakeman.ExtensionManager \
-    net.nokyan.Resources
-    org.mozilla.firefox \
-    org.gnome.TextEditor \
-    org.gnome.Calculator \
-    org.gnome.Papers \
-    org.gnome.baobab \
-    org.gnome.Snapshot \
-    org.gnome.Calendar \
-    org.gnome.Decibels \
-    org.gnome.Showtime \
-    org.gnome.Weather \
-    org.gnome.Music \
-    org.gnome.Loupe
+(
+    echo "# Setting up Flathub Repository..."
+    
+    # pkexec runs the bash command as root.
+    # We pipe stdout to /dev/null inside the root shell so raw flatpak text 
+    # doesn't confuse Zenity, unless we want to echo specific status messages.
+    pkexec bash -c "set -o pipefail; \
+        flatpak remote-delete --force flathub || true; \
+        flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo; \
+        flatpak install -y --system flathub $APPS; \
+        flatpak override --filesystem=xdg-config/gtk-3.0:ro; \
+        flatpak override --filesystem=xdg-config/gtk-4.0:ro; \
+        flatpak override --filesystem=/usr/share/fonts:ro"
+    
+    echo "pulse"
+    echo "# Installing Applications (This may take a few minutes)..."
 
-# 3. Install Gaming Apps & Extra functionality
-echo "Installing Gaming Apps..."
-flatpak install -y flathub \
-    com.valvesoftware.Steam \
-    net.lutris.Lutris
+) | zenity --progress \
+    --title="Setting up Environment" \
+    --text="Installing system applications..." \
+    --pulsate \
+    --auto-close \
+    --no-cancel \
+    --width=500
 
-# 4. Apply Integration
-flatpak override --filesystem=xdg-config/gtk-3.0:ro
-flatpak override --filesystem=xdg-config/gtk-4.0:ro
-flatpak override --filesystem=/usr/share/fonts:ro 
+# 5. FINISH
+touch "$FLAG_FILE"
 
-# 5. Mark as done
-touch /var/lib/flatpak-firstboot-done
-echo "First Boot Setup Complete."
+zenity --info \
+    --title="Setup Complete" \
+    --text="Your system is ready!" \
+    --width=300
