@@ -2,7 +2,7 @@
 set -eox pipefail
 
 # Install Core GNOME
-# specific packages to ensure minimal bootable desktop
+# Only specific packages to ensure minimal bootable desktop
 rpm-ostree install \
     gdm \
     gnome-shell \
@@ -17,6 +17,12 @@ rpm-ostree install \
     gsettings-desktop-schemas \
     gnome-backgrounds \
     gnome-backgrounds-extras
+
+# Install aditional RPM packages
+rpm-ostree install \
+    gamemode \
+    gamescope \
+    mangohud \
 
 # GDM Configuration (Wayland)
 mkdir -p /etc/gdm
