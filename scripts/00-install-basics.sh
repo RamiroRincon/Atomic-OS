@@ -23,6 +23,7 @@ rpm-ostree install \
     gamemode \
     gamescope \
     mangohud \
+    sushi
 
 # GDM Configuration (Wayland)
 mkdir -p /etc/gdm
