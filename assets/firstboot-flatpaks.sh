@@ -32,11 +32,19 @@ echo "Installing Core Apps..."
 flatpak install -y flathub \
     app.devsuite.Ptyxis \
     io.github.kolunmi.Bazaar \
-    flathub com.mattjakeman.ExtensionManager \
+    com.mattjakeman.ExtensionManager \
+    net.nokyan.Resources
     org.mozilla.firefox \
     org.gnome.TextEditor \
     org.gnome.Calculator \
     org.gnome.Papers \
+    org.gnome.baobab \
+    org.gnome.Snapshot \
+    org.gnome.Calendar \
+    org.gnome.Decibels \
+    org.gnome.Showtime \
+    org.gnome.Weather \
+    org.gnome.Music \
     org.gnome.Loupe
 
 # 3. Install Gaming Apps & Extra functionality
