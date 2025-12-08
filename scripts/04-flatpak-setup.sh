@@ -1,13 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -ouex pipefail
 
-echo "Setting up Firstboot Flatpak Service..."
+echo "Setting up Firstboot Setup Wizard..."
 
-# Install the script to /usr/bin with executable permissions (0755)
-install -m 0755 /tmp/assets/firstboot-flatpaks.sh /usr/bin/firstboot-flatpaks.sh
+# 1. Install the script to /usr/bin
+# We use -m 0755 so it is executable by everyone
+install -m 0755 /tmp/assets/firstboot-flatpaks.sh /usr/bin/firstboot-flatpaks
 
-# Install the service file to systemd directory with read permissions (0644)
-install -m 0644 /tmp/assets/firstboot-flatpaks.service /usr/lib/systemd/system/firstboot-flatpaks.service
+# 2. Create the Autostart Entry
+# This makes the script run when ANY user logs into the graphical desktop.
+mkdir -p /etc/xdg/autostart
 
-# Enable the service so it runs on next boot
-systemctl enable firstboot-flatpaks.service
+cat <<EOF > /etc/xdg/autostart/firstboot-wizard.desktop
+[Desktop Entry]
+Type=Application
+Name=Setup Wizard
+Comment=Installs core apps on first login
+Exec=/usr/bin/firstboot-flatpaks
+Terminal=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+echo "Wizard setup complete."
