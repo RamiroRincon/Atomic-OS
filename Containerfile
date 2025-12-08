@@ -14,6 +14,7 @@ RUN chmod +x /tmp/scripts/*.sh && \
     /tmp/scripts/03-setup-firstboot.sh && \
     /tmp/scripts/04-flatpak-setup.sh && \
     /tmp/scripts/05-install-extensions.sh && \
+    /tmp/scripts/06-setup-defaults.sh && \
     rm -rf /tmp/scripts /tmp/assets
 
 RUN bootc container lint
