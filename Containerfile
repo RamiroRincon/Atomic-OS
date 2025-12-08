@@ -8,7 +8,7 @@ COPY assets /tmp/assets
 # 2. Run the scripts (Added 04-flatpak-setup.sh)
 # 3. Cleanup
 RUN chmod +x /tmp/scripts/*.sh && \
-    /tmp/scripts/00-install-gnome.sh && \
+    /tmp/scripts/00-install-basics.sh && \
     /tmp/scripts/01-remove-bloat.sh && \
     /tmp/scripts/02-branding.sh && \
     /tmp/scripts/03-setup-firstboot.sh && \
