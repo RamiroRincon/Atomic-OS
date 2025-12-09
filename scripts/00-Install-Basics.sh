@@ -17,8 +17,7 @@ rpm-ostree install \
     xdg-desktop-portal-gnome \
     xdg-user-dirs-gtk \
     adwaita-icon-theme \
-    gsettings-desktop-schemas \
-    zenity
+    gsettings-desktop-schemas
 
 # Enable RPM Fusion Repositories
 rpm-ostree install \
@@ -30,7 +29,8 @@ rpm-ostree install \
     gstreamer1-plugin-libav \
     gstreamer1-plugins-bad-free-extras \
     gstreamer1-plugins-ugly \
-    gstreamer1-vaapi
+    gstreamer1-vaapi \
+    zenity
 
 # Install core GNOME Extensions
 rpm-ostree install \
