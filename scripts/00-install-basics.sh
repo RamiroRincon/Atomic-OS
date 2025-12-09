@@ -19,6 +19,10 @@ rpm-ostree install \
     adwaita-icon-theme \
     gsettings-desktop-schemas
 
+# Install Terminal with Flatpak (This is only temporary until I can find a better way to do it)
+flatpak install -y
+    app.devsuite.Ptyxis 
+
 # Enable RPM Fusion Repositories
 rpm-ostree install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
