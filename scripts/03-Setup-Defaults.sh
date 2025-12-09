@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -ouex pipefail
 
 echo "Applying custom GNOME defaults..."
