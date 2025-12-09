@@ -30,4 +30,7 @@ RUN mkdir -p /etc/skel/Desktop && \
     echo "Terminal=false" >> /etc/skel/Desktop/Install-Apps.desktop && \
     chmod +x /etc/skel/Desktop/Install-Apps.desktop
 
+# Set the default hostname
+RUN echo "Atomic-OS" > /etc/hostname
+
 RUN bootc container lint
