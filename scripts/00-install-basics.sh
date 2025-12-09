@@ -28,15 +28,13 @@ rpm-ostree install \
 rpm-ostree install \
     gstreamer1-plugin-libav \
     gstreamer1-plugins-bad-free-extras \
-    gstreamer1-plugins-bad-freeworld \
     gstreamer1-plugins-ugly \
-    gstreamer1-vaapi \
-    intel-media-driver
+    gstreamer1-vaapi
 
 # Install core GNOME Extensions
 rpm-ostree install \
     gnome-shell-extension-dash-to-dock \
-    gnome-shell-extension-blur-my-shell \
+    gnome-shell-extension-blur-my-shell
 
 # Install aditional RPM packages
 rpm-ostree install \
@@ -44,7 +42,6 @@ rpm-ostree install \
     gamescope \
     mangohud \
     sushi \
-    ffmpeg \
     hplip
 
 # GDM Configuration (Wayland)
