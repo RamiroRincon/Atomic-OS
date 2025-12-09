@@ -14,7 +14,7 @@ enable = [
   "org.fedoraproject.Anaconda.Modules.Security",
   "org.fedoraproject.Anaconda.Modules.Services",
   "org.fedoraproject.Anaconda.Modules.Timezone"
-  "org.fedoraproject.Anaconda.Modules.Localization"
+  "org.fedoraproject.Anaconda.Modules.Localization",
 ]
 disable = [
   "org.fedoraproject.Anaconda.Modules.Users"
