@@ -101,19 +101,14 @@ disabled-extensions=['background-logo@fedorahosted.org']
 # Customize opacity to fixed 25%
 transparency-mode='FIXED'
 background-opacity=0.25
-
 # Click action: Focus, minimize or show previews
 click-action='focus-minimize-or-previews'
-
 # Show applications icon: Move to beginning (Top/Left)
 show-apps-at-top=true
-
 # Animate show applications: On
 animate-show-apps=true
-
 # Disable show overview on startup
 disable-overview-on-startup=true
-
 # Icon size limit: 64px
 dash-max-icon-size=64
 
