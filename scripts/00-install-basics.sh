@@ -23,7 +23,6 @@ rpm-ostree install \
 rpm-ostree install \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-blur-my-shell \
-    gnome-shell-extension-ding
 
 # Install aditional RPM packages
 rpm-ostree install \
