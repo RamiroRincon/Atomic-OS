@@ -13,8 +13,11 @@ install_apps() {
     # Phase 1: Setup
     echo "10"
     echo "# Setting up App Sources..."
-    # Removing '--user' makes this system-wide (requires admin password)
+    # Add the remote
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    # Force the download of the app catalog so the Store doesn't look "Offline"
+    echo "# Syncing App Catalog..."
+    flatpak update --appstream -y
     sleep 1
 
     # Phase 2: Terminal (Ptyxis)
