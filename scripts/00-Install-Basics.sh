@@ -25,7 +25,7 @@ rpm-ostree install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Install Multimedia Codecs & Drivers
+# Install Multimedia Codecs, Drivers & Extras
 rpm-ostree install \
     gstreamer1-plugin-libav \
     gstreamer1-plugins-bad-free-extras \
