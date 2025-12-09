@@ -26,6 +26,15 @@ WANT_TO_REMOVE=(
   fedora-chromium-config
   malcontent-control
   epiphany-runtime
+  libavcodec-free \
+  libavfilter-free \
+  libavformat-free \
+  libavutil-free \
+  libpostproc-free \
+  libswresample-free \
+  libswscale-free \
+  mesa-va-drivers \
+  mesa-vdpau-drivers
 )
 
 # 2. Filter the list: Create a new array containing ONLY packages that actually exist
