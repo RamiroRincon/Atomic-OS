@@ -1,6 +1,10 @@
 [customizations.installer.kickstart]
 contents = """
 graphical
+
+%post
+bootc switch --mutate-in-place --transport registry ghcr.io/ramirorincon/atomic-os:latest
+%end
 """
 
 [customizations.installer.modules]
