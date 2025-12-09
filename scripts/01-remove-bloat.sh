@@ -26,13 +26,6 @@ WANT_TO_REMOVE=(
   fedora-chromium-config
   malcontent-control
   epiphany-runtime
-  libavcodec-free \
-  libavfilter-free \
-  libavformat-free \
-  libavutil-free \
-  libpostproc-free \
-  libswresample-free \
-  libswscale-free
 )
 
 # 2. Filter the list: Create a new array containing ONLY packages that actually exist
@@ -56,5 +49,19 @@ else
     echo "Nothing to remove!"
 fi
 
-# 4. Remove the lingering Mozilla folder from the skeleton directory
+# 4. SWAP CODECS (The Critical Step)
+# We remove the crippled Fedora codecs and install the full RPM Fusion FFmpeg here.
+# This must be done in one command to avoid breaking dependencies.
+echo "Swapping Codecs..."
+rpm-ostree override remove \
+    libavcodec-free \
+    libavfilter-free \
+    libavformat-free \
+    libavutil-free \
+    libpostproc-free \
+    libswresample-free \
+    libswscale-free \
+    --install ffmpeg
+
+# 5. Remove the lingering Mozilla folder from the skeleton directory
 rm -rf /etc/skel/.mozilla
