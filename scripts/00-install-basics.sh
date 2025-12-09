@@ -36,9 +36,7 @@ rpm-ostree install \
     mangohud \
     sushi \
     ffmpeg \
-    hplip \
-    mesa-va-drivers-freeworld \
-    mesa-vdpau-drivers-freeworld
+    hplip
 
 # GDM Configuration (Wayland)
 mkdir -p /etc/gdm
