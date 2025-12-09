@@ -27,6 +27,7 @@ WANT_TO_REMOVE=(
   fedora-chromium-config
   malcontent-control
   epiphany-runtime
+  gnome-extensions-app
 )
 
 # 2. Filter the list
