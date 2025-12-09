@@ -20,12 +20,12 @@ rpm-ostree install \
     gsettings-desktop-schemas
 
 # Install Flatpak REF and Flathub
-flatpak remote-add --if-not-exists
-    flathub
+flatpak remote-add --if-not-exists \
+    flathub \
     https://flathub.org/repo/flathub.flatpakrepo
 
 # Install Terminal with Flatpak (This is only temporary until I can find a better way to do it)
-flatpak install -y
+flatpak install -y \
     app.devsuite.Ptyxis 
 
 # Enable RPM Fusion Repositories
