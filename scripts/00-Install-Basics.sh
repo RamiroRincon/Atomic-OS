@@ -12,21 +12,13 @@ rpm-ostree install \
     gnome-backgrounds \
     gnome-backgrounds-extras \
     gnome-initial-setup \
+    gnome-terminal \
     nautilus \
     mutter \
     xdg-desktop-portal-gnome \
     xdg-user-dirs-gtk \
     adwaita-icon-theme \
     gsettings-desktop-schemas
-
-# Install Flatpak REF and Flathub
-flatpak remote-add --if-not-exists \
-    flathub \
-    https://flathub.org/repo/flathub.flatpakrepo
-
-# Install Terminal with Flatpak (This is only temporary until I can find a better way to do it)
-flatpak install -y \
-    app.devsuite.Ptyxis 
 
 # Enable RPM Fusion Repositories
 rpm-ostree install \
