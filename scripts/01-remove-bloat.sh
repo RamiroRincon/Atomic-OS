@@ -32,9 +32,7 @@ WANT_TO_REMOVE=(
   libavutil-free \
   libpostproc-free \
   libswresample-free \
-  libswscale-free \
-  mesa-va-drivers \
-  mesa-vdpau-drivers
+  libswscale-free
 )
 
 # 2. Filter the list: Create a new array containing ONLY packages that actually exist
