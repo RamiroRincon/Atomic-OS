@@ -6,17 +6,18 @@ set -eox pipefail
 rpm-ostree install \
     gdm \
     gnome-shell \
-    nautilus \
-    mutter \
     gnome-session \
     gnome-settings-daemon \
     gnome-control-center \
+    gnome-backgrounds \
+    gnome-backgrounds-extras \
+    gnome-initial-setup \
+    nautilus \
+    mutter \
     xdg-desktop-portal-gnome \
     xdg-user-dirs-gtk \
     adwaita-icon-theme \
-    gsettings-desktop-schemas \
-    gnome-backgrounds \
-    gnome-backgrounds-extras
+    gsettings-desktop-schemas
 
 # Install aditional RPM packages
 rpm-ostree install \
