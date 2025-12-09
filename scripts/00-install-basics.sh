@@ -24,6 +24,15 @@ rpm-ostree install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
+# Install Multimedia Codecs & Drivers
+rpm-ostree install \
+    gstreamer1-plugin-libav \
+    gstreamer1-plugins-bad-free-extras \
+    gstreamer1-plugins-bad-freeworld \
+    gstreamer1-plugins-ugly \
+    gstreamer1-vaapi \
+    intel-media-driver
+
 # Install core GNOME Extensions
 rpm-ostree install \
     gnome-shell-extension-dash-to-dock \
