@@ -2,10 +2,9 @@
 set -eox pipefail
 
 ## Fedora → Generic branding swap
-## Missing packages are ignored safely
-
+## We use 'generic-logos' (Desktop assets) instead of 'generic-logos-httpd'
 REPLACEMENTS=(
-  "fedora-logos generic-logos-httpd"
+  "fedora-logos generic-logos"
   "fedora-release generic-release"
 )
 
