@@ -29,7 +29,10 @@ rpm-ostree install \
     gamemode \
     gamescope \
     mangohud \
-    sushi
+    sushi \
+    ffmpeg \
+    mesa-va-drivers-freeworld \
+    mesa-vdpau-drivers-freeworld
 
 # GDM Configuration (Wayland)
 mkdir -p /etc/gdm
