@@ -70,5 +70,5 @@ else
         --install ffmpeg
 fi
 
-# 4. Cleanup
+# 4. Cleanup Firefox folder
 rm -rf /etc/skel/.mozilla
