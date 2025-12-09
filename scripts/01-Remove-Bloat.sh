@@ -16,6 +16,7 @@ WANT_TO_REMOVE=(
   gnome-logs
   gnome-font-viewer
   gnome-disk-utility
+  gnome-extensions-app
   loupe
   snapshot
   simple-scan
@@ -27,7 +28,6 @@ WANT_TO_REMOVE=(
   fedora-chromium-config
   malcontent-control
   epiphany-runtime
-  gnome-extensions-app
 )
 
 # 2. Filter the list
