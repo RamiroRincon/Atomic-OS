@@ -95,6 +95,13 @@ enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'blur-my-shell@aunetx']
 disabled-extensions=['background-logo@fedorahosted.org']
 
 # ----------------------------------
+# LOGIN SCREEN (GDM)
+# ----------------------------------
+[org.gnome.login-screen]
+# Remove the logo from the login screen
+logo=''
+
+# ----------------------------------
 # PRIVACY / ANNOYANCES
 # ----------------------------------
 [org.gnome.desktop.privacy]
