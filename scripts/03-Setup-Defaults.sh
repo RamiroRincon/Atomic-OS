@@ -101,6 +101,7 @@ remember-recent-files=false
 [org.gnome.software]
 # Disable auto-download of updates (not needed since we're using ostree)
 download-updates=false
+
 EOF
 
 # ----------------------------------
