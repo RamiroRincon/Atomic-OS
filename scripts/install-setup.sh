@@ -45,6 +45,11 @@ install_apps() {
             echo "ERR: App Store failed to install"
             exit 1
         fi
+
+        echo "# Configuring App Store..."
+        flatpak run --command=gsettings io.github.kolunmi.Bazaar \
+            set io.github.kolunmi.Bazaar show-flathub-only true
+    
     else
         echo "70"
         echo "# App Store already installed... You can delete this file, everything is already set up."
