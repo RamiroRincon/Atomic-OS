@@ -19,6 +19,11 @@ rpm-ostree install \
     adwaita-icon-theme \
     gsettings-desktop-schemas
 
+# Enable RPM Fusion Repositories
+rpm-ostree install \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
 # Install core GNOME Extensions
 rpm-ostree install \
     gnome-shell-extension-dash-to-dock \
@@ -31,6 +36,7 @@ rpm-ostree install \
     mangohud \
     sushi \
     ffmpeg \
+    hplip \
     mesa-va-drivers-freeworld \
     mesa-vdpau-drivers-freeworld
 
