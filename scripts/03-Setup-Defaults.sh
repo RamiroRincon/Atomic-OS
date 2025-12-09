@@ -28,11 +28,9 @@ sort-directories-first=true
 # ----------------------------------
 # POWER SETTINGS
 # ----------------------------------
-[org.gnome.settings-daemon.plugins.power]
-# Set power profile to "Performance"
-power-profile='performance'
-# Prevent sleep when inactive and connected to power (I think)
-sleep-inactive-ac-type='nothing'
+# Force "Performance" mode by default (This file controls the system-wide power profile)
+mkdir -p /etc/tuned
+echo "throughput-performance" > /etc/tuned/active_profile
 
 # ----------------------------------
 # INTERFACE & THEME
@@ -53,6 +51,8 @@ enable-hot-corners=false
 dynamic-workspaces=false
 # Center new windows by default (macOS/Windows behavior)
 center-new-windows=true
+# (Optional) Prevent workspaces on all monitors if you want just the primary
+workspaces-only-on-primary=true
 
 [org.gnome.desktop.wm.preferences]
 # Add buttons to windows
