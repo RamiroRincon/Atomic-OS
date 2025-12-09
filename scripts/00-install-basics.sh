@@ -19,6 +19,12 @@ rpm-ostree install \
     adwaita-icon-theme \
     gsettings-desktop-schemas
 
+# Install core GNOME Extensions
+rpm-ostree install \
+    gnome-shell-extension-dash-to-dock \
+    gnome-shell-extension-blur-my-shell \
+    gnome-shell-extension-ding
+
 # Install aditional RPM packages
 rpm-ostree install \
     gamemode \
