@@ -41,27 +41,34 @@ for pkg in "${WANT_TO_REMOVE[@]}"; do
     fi
 done
 
-# 3. Run the removal command only on the valid list
+# 3. UNIFIED REMOVAL & SWAP
+# We combine the "Bloat Removal" and the "Codec Swap" into ONE command.
+# This prevents dependency conflicts because the solver sees the final state immediately.
+
 if [ ${#ACTUALLY_INSTALLED[@]} -gt 0 ]; then
-    echo "Removing ${#ACTUALLY_INSTALLED[@]} packages..."
-    rpm-ostree override remove "${ACTUALLY_INSTALLED[@]}"
+    echo "Executing Unified Removal and Codec Swap..."
+    rpm-ostree override remove \
+        "${ACTUALLY_INSTALLED[@]}" \
+        libavcodec-free \
+        libavfilter-free \
+        libavformat-free \
+        libavutil-free \
+        libpostproc-free \
+        libswresample-free \
+        libswscale-free \
+        --install ffmpeg
 else
-    echo "Nothing to remove!"
+    echo "Nothing to remove? This shouldn't happen. Running swap anyway."
+    rpm-ostree override remove \
+        libavcodec-free \
+        libavfilter-free \
+        libavformat-free \
+        libavutil-free \
+        libpostproc-free \
+        libswresample-free \
+        libswscale-free \
+        --install ffmpeg
 fi
 
-# 4. SWAP CODECS (The Critical Step)
-# We remove the crippled Fedora codecs and install the full RPM Fusion FFmpeg here.
-# This must be done in one command to avoid breaking dependencies.
-echo "Swapping Codecs..."
-rpm-ostree override remove \
-    libavcodec-free \
-    libavfilter-free \
-    libavformat-free \
-    libavutil-free \
-    libpostproc-free \
-    libswresample-free \
-    libswscale-free \
-    --install ffmpeg
-
-# 5. Remove the lingering Mozilla folder from the skeleton directory
+# 4. Cleanup
 rm -rf /etc/skel/.mozilla
