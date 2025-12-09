@@ -12,13 +12,13 @@ rpm-ostree install \
     gnome-backgrounds \
     gnome-backgrounds-extras \
     gnome-initial-setup \
-    gnome-terminal \
     nautilus \
     mutter \
     xdg-desktop-portal-gnome \
     xdg-user-dirs-gtk \
     adwaita-icon-theme \
-    gsettings-desktop-schemas
+    gsettings-desktop-schemas \
+    zenity
 
 # Enable RPM Fusion Repositories
 rpm-ostree install \
