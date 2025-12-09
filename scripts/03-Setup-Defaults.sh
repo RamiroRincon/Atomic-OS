@@ -86,11 +86,13 @@ show-trash=true
 show-volumes=false
 
 # ----------------------------------
-# ENABLE EXTENSIONS
+# EXTENSIONS
 # ----------------------------------
 [org.gnome.shell]
 # Enable Dash-to-Dock and Blur my Shell
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'blur-my-shell@aunetx']
+# Explicitly disable the Fedora background logo
+disabled-extensions=['background-logo@fedorahosted.org']
 
 # ----------------------------------
 # PRIVACY / ANNOYANCES
