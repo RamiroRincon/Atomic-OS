@@ -8,11 +8,10 @@ COPY assets /tmp/assets
 # 2. Run the scripts (Added 04-flatpak-setup.sh)
 # 3. Cleanup
 RUN chmod +x /tmp/scripts/*.sh && \
-    /tmp/scripts/00-install-basics.sh && \
-    /tmp/scripts/01-remove-bloat.sh && \
-    /tmp/scripts/02-branding.sh && \
-    /tmp/scripts/03-flatpak-setup.sh && \
-    /tmp/scripts/04-setup-defaults.sh && \
+    /tmp/scripts/00-Install-Basics.sh && \
+    /tmp/scripts/01-Remove-Bloat.sh && \
+    /tmp/scripts/02-Remove-Branding.sh && \
+    /tmp/scripts/03-Setup-Defaults.sh && \
     rm -rf /tmp/scripts /tmp/assets
 
 RUN bootc container lint
