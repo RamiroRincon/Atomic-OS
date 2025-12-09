@@ -2,7 +2,6 @@ FROM ghcr.io/ublue-os/base-main:41
 
 # Copy your scripts and assets
 COPY scripts /tmp/scripts
-COPY assets /tmp/assets
 
 # 1. Make scripts executable
 # 2. Run the scripts (Added 04-flatpak-setup.sh)
