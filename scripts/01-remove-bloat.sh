@@ -2,6 +2,7 @@
 set -eox pipefail
 
 # 1. Define your wish list of packages to remove
+# (We are NOT touching libav* or codecs anymore)
 WANT_TO_REMOVE=(
   firefox
   firefox-langpacks
@@ -28,7 +29,7 @@ WANT_TO_REMOVE=(
   epiphany-runtime
 )
 
-# 2. Filter the list: Create a new array containing ONLY packages that actually exist
+# 2. Filter the list
 ACTUALLY_INSTALLED=()
 
 echo "Checking package availability..."
@@ -41,34 +42,13 @@ for pkg in "${WANT_TO_REMOVE[@]}"; do
     fi
 done
 
-# 3. UNIFIED REMOVAL & SWAP
-# We combine the "Bloat Removal" and the "Codec Swap" into ONE command.
-# This prevents dependency conflicts because the solver sees the final state immediately.
-
+# 3. Simple Removal (No Swap, No Conflicts)
 if [ ${#ACTUALLY_INSTALLED[@]} -gt 0 ]; then
-    echo "Executing Unified Removal and Codec Swap..."
-    rpm-ostree override remove \
-        "${ACTUALLY_INSTALLED[@]}" \
-        libavcodec-free \
-        libavfilter-free \
-        libavformat-free \
-        libavutil-free \
-        libpostproc-free \
-        libswresample-free \
-        libswscale-free \
-        --install ffmpeg
+    echo "Removing ${#ACTUALLY_INSTALLED[@]} packages..."
+    rpm-ostree override remove "${ACTUALLY_INSTALLED[@]}"
 else
-    echo "Nothing to remove? This shouldn't happen. Running swap anyway."
-    rpm-ostree override remove \
-        libavcodec-free \
-        libavfilter-free \
-        libavformat-free \
-        libavutil-free \
-        libpostproc-free \
-        libswresample-free \
-        libswscale-free \
-        --install ffmpeg
+    echo "Nothing to remove!"
 fi
 
-# 4. Cleanup Firefox folder
+# 4. Cleanup
 rm -rf /etc/skel/.mozilla
