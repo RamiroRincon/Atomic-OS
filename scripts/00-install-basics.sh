@@ -31,6 +31,7 @@ mkdir -p /etc/gdm
 cat >/etc/gdm/custom.conf <<EOF
 [daemon]
 WaylandEnable=true
+InitialSetupEnable=True
 EOF
 
 # Enable Services
