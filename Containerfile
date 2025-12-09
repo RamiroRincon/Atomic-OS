@@ -12,8 +12,7 @@ RUN chmod +x /tmp/scripts/*.sh && \
     /tmp/scripts/01-remove-bloat.sh && \
     /tmp/scripts/02-branding.sh && \
     /tmp/scripts/03-flatpak-setup.sh && \
-    /tmp/scripts/04-install-extensions.sh && \
-    /tmp/scripts/05-setup-defaults.sh && \
+    /tmp/scripts/04-setup-defaults.sh && \
     rm -rf /tmp/scripts /tmp/assets
 
 RUN bootc container lint
