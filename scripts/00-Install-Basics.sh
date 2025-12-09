@@ -30,7 +30,8 @@ rpm-ostree install \
     gstreamer1-plugins-bad-free-extras \
     gstreamer1-plugins-ugly \
     gstreamer1-vaapi \
-    zenity
+    zenity \
+    flatpak
 
 # Install core GNOME Extensions
 rpm-ostree install \
