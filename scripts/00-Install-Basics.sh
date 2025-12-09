@@ -30,8 +30,7 @@ rpm-ostree install \
     gstreamer1-plugin-libav \
     gstreamer1-plugins-bad-free-extras \
     gstreamer1-plugins-ugly \
-    gstreamer1-vaapi \
-    org.freedesktop.Platform.Compat.i386
+    gstreamer1-vaapi
 
 # Install core GNOME Extensions
 rpm-ostree install \
