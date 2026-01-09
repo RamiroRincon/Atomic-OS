@@ -1,7 +1,3 @@
-[customizations.installer]
-product = "Atomic-OS"
-version = "1.0"
-
 [customizations.installer.kickstart]
 contents = """
 

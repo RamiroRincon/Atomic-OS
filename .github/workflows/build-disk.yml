@@ -86,12 +86,24 @@ jobs:
           types: ${{ matrix.disk-type }}
           additional-args: --use-librepo=True --rootfs xfs
 
+      - name: Prepare Artifacts
+        if: github.event_name != 'pull_request'
+        run: |
+          mkdir -p ./dist
+          if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
+            # Move and rename the ISO to a clean folder
+            cp ${{ steps.build.outputs.output-directory }}/anaconda-iso/bootiso/install.iso ./dist/Atomic-OS.iso
+          else
+            # Rename qcow2 image if necessary
+            cp ${{ steps.build.outputs.output-directory }}/${{ matrix.disk-type }}/disk.${{ matrix.disk-type }} ./dist/Atomic-OS.${{ matrix.disk-type }}
+          fi
+
       - name: Upload disk images to Job Artifacts
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
-          name: image-${{ matrix.disk-type }}
-          path: ${{ steps.build.outputs.output-directory }}
+          name: Atomic-OS (${{ matrix.disk-type == 'anaconda-iso' && '.iso' || matrix.disk-type }})
+          path: ./dist/
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
