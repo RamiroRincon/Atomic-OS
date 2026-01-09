@@ -90,13 +90,14 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           mkdir -p ./dist
-          # Fixed paths
+          OUTPUT_DIR="${{ steps.build.outputs.output-directory }}"
+          
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
-            # ISO is in /output/anaconda-iso/bootiso/
-            cp ${{ steps.build.outputs.output-directory }}/anaconda-iso/bootiso/install.iso ./dist/Atomic-OS.iso
+            # Path verified: /output/anaconda-iso/bootiso/install.iso
+            cp "$OUTPUT_DIR/anaconda-iso/bootiso/install.iso" "./dist/Atomic-OS.iso"
           else
-            # QCOW2 is in /output/qcow2/
-            cp ${{ steps.build.outputs.output-directory }}/qcow2/disk.qcow2 ./dist/Atomic-OS.qcow2
+            # Path verified: /output/qcow2/disk.qcow2
+            cp "$OUTPUT_DIR/qcow2/disk.qcow2" "./dist/Atomic-OS.qcow2"
           fi
 
       - name: Upload disk images to Job Artifacts
@@ -109,19 +110,3 @@ jobs:
           retention-days: 0
           compression-level: 0
           overwrite: true
-
-      - name: Upload to S3
-        if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
-        shell: bash
-        env:
-          RCLONE_CONFIG_S3_TYPE: s3
-          RCLONE_CONFIG_S3_PROVIDER: ${{ secrets.S3_PROVIDER }}
-          RCLONE_CONFIG_S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
-          RCLONE_CONFIG_S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-          RCLONE_CONFIG_S3_REGION: ${{ secrets.S3_REGION }}
-          RCLONE_CONFIG_S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-          SOURCE_DIR: ${{ steps.build.outputs.output-directory }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y rclone
-          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}
