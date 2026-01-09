@@ -92,18 +92,32 @@ jobs:
           mkdir -p ./dist
           OUTPUT_DIR="${{ steps.build.outputs.output-directory }}"
           
+          echo "Searching for files in $OUTPUT_DIR..."
+          ls -R "$OUTPUT_DIR"
+
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
-            # Path verified: /output/anaconda-iso/bootiso/install.iso
-            cp "$OUTPUT_DIR/anaconda-iso/bootiso/install.iso" "./dist/Atomic-OS.iso"
+            # We use find to be extra safe since the path nesting can vary
+            ISO_PATH=$(find "$OUTPUT_DIR" -name "install.iso" | head -n 1)
+            if [ -n "$ISO_PATH" ]; then
+              cp "$ISO_PATH" "./dist/Atomic-OS.iso"
+            else
+              echo "Error: install.iso not found!" && exit 1
+            fi
           else
-            # Path verified: /output/qcow2/disk.qcow2
-            cp "$OUTPUT_DIR/qcow2/disk.qcow2" "./dist/Atomic-OS.qcow2"
+            # QCOW2 path is usually flatter
+            QCOW_PATH=$(find "$OUTPUT_DIR" -name "*.qcow2" | head -n 1)
+            if [ -n "$QCOW_PATH" ]; then
+              cp "$QCOW_PATH" "./dist/Atomic-OS.qcow2"
+            else
+              echo "Error: qcow2 file not found!" && exit 1
+            fi
           fi
 
       - name: Upload disk images to Job Artifacts
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
+          # Sets the ZIP filename to "Atomic-OS (.iso).zip" or "Atomic-OS (qcow2).zip"
           name: Atomic-OS (${{ matrix.disk-type == 'anaconda-iso' && '.iso' || matrix.disk-type }})
           path: ./dist/
           if-no-files-found: error
