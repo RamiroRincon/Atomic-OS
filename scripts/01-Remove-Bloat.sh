@@ -27,7 +27,6 @@ WANT_TO_REMOVE=(
   fedora-bookmarks
   fedora-chromium-config
   malcontent-control
-  epiphany-runtime
 )
 
 # 2. Filter the list
