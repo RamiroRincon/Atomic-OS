@@ -10,9 +10,6 @@ on:
         options:
           - amd64
           - arm64
-  pull_request:
-    branches:
-      - main
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
@@ -78,47 +75,28 @@ jobs:
             cp "$QCOW_PATH" "./dist/Atomic-OS.qcow2"
           fi
 
-      - name: Upload disk images to Job Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Atomic-OS-${{ matrix.disk-type }}
-          path: ./dist/
-          retention-days: 1
-
-  publish:
-    name: Create GitHub Release
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./artifacts
-          pattern: Atomic-OS-*
-          merge-multiple: true
-
-      - name: Generate Release Tag
-        id: tag
-        run: echo "release_tag=$(date +'%Y.%m.%d-%H%M%S')" >> $GITHUB_OUTPUT
-
-      - name: Create Release and Upload
+      - name: Upload to Cloudflare R2
+        shell: bash
         env:
-          # IMPORTANT: We are now using your Personal Access Token to bypass the 2GB limit
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-          TAG: ${{ steps.tag.outputs.release_tag }}
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+          BUCKET: ${{ secrets.S3_BUCKET_NAME }}
         run: |
-          gh release create "$TAG" \
-            --title "Atomic-OS Build $TAG" \
-            --notes "Automated build of Atomic-OS. Direct downloads for ISO and QCOW2." \
-            --prerelease
+          sudo apt-get update && sudo apt-get install -y rclone
+          # sync replaces old files with new ones, keeping storage usage constant
+          rclone sync ./dist/ R2:$BUCKET/stable/
 
-          echo "Uploading ISO (One single file)..."
-          gh release upload "$TAG" ./artifacts/Atomic-OS.iso --clobber
-          
-          echo "Uploading QCOW2 (One single file)..."
-          gh release upload "$TAG" ./artifacts/Atomic-OS.qcow2 --clobber
+      - name: Update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="latest"
+          # Delete the old release record to keep the UI clean
+          gh release delete "$TAG" --yes || true
+          gh release create "$TAG" \
+            --title "Atomic-OS Latest Stable" \
+            --notes "The latest build is now synced to Cloudflare R2. Overwritten every successful build to save space." \
+            --prerelease
