@@ -86,17 +86,23 @@ jobs:
           BUCKET: ${{ secrets.S3_BUCKET_NAME }}
         run: |
           sudo apt-get update && sudo apt-get install -y rclone
-          # sync replaces old files with new ones, keeping storage usage constant
-          rclone sync ./dist/ R2:$BUCKET/stable/
+          # Using 'copy' instead of 'sync' prevents the parallel jobs from deleting each other
+          rclone copy ./dist/ R2:$BUCKET/stable/
 
-      - name: Update GitHub Release
+  publish:
+    name: Finalize Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="latest"
-          # Delete the old release record to keep the UI clean
           gh release delete "$TAG" --yes || true
           gh release create "$TAG" \
             --title "Atomic-OS Latest Stable" \
-            --notes "The latest build is now synced to Cloudflare R2. Overwritten every successful build to save space." \
+            --notes "Images are available at the Cloudflare R2 mirror. Built on $(date)." \
             --prerelease
