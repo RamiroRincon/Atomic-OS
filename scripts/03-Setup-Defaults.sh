@@ -98,7 +98,18 @@ remember-recent-files=false
 [org/gnome/software]
 download-updates=false
 
-# --- EMOJI FONT CONFIGURATION ---
+EOF
+
+# ----------------------------------
+# 4. UPDATE DCONF DATABASE
+# ----------------------------------
+# This compiles the text files into the binary database GNOME reads
+echo "Updating dconf..."
+dconf update
+
+# ----------------------------------
+# 5. EMOJI FONT CONFIGURATION
+# ----------------------------------
 echo "Configuring Apple Color Emoji as system default..."
 mkdir -p /etc/fonts/local.conf.d
 
@@ -111,12 +122,4 @@ cat <<EOF > /etc/fonts/local.conf.d/99-apple-emoji.conf
     <edit name="family" mode="assign" binding="same"><string>Apple Color Emoji</string></edit>
   </match>
 </fontconfig>
-
 EOF
-
-# ----------------------------------
-# 4. UPDATE DCONF DATABASE
-# ----------------------------------
-# This compiles the text files into the binary database GNOME reads
-echo "Updating dconf..."
-dconf update
