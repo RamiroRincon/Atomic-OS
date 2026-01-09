@@ -90,7 +90,7 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           mkdir -p ./dist
-          # Fixed paths based on your debug logs:
+          # Fixed paths
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
             # ISO is in /output/anaconda-iso/bootiso/
             cp ${{ steps.build.outputs.output-directory }}/anaconda-iso/bootiso/install.iso ./dist/Atomic-OS.iso
