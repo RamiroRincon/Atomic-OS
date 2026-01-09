@@ -86,7 +86,6 @@ jobs:
           BUCKET: ${{ secrets.S3_BUCKET_NAME }}
         run: |
           sudo apt-get update && sudo apt-get install -y rclone
-          # Using 'copy' instead of 'sync' prevents the parallel jobs from deleting each other
           rclone copy ./dist/ R2:$BUCKET/stable/
 
   publish:
@@ -96,7 +95,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Create GitHub Release
+      # THE CRITICAL MISSING STEP:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
