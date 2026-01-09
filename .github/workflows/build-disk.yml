@@ -133,4 +133,4 @@ jobs:
             ./artifacts/Atomic-OS.iso
             ./artifacts/Atomic-OS.qcow2
           draft: false
-          prerelease: true # Marks it as an alpha/beta build
+          prerelease: true # Marks the build as an alpha/beta
