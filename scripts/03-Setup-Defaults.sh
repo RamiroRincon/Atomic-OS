@@ -98,6 +98,20 @@ remember-recent-files=false
 [org/gnome/software]
 download-updates=false
 
+# --- EMOJI FONT CONFIGURATION ---
+echo "Configuring Apple Color Emoji as system default..."
+mkdir -p /etc/fonts/local.conf.d
+
+cat <<EOF > /etc/fonts/local.conf.d/99-apple-emoji.conf
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <match target="pattern">
+    <test qual="any" name="family"><string>emoji</string></test>
+    <edit name="family" mode="assign" binding="same"><string>Apple Color Emoji</string></edit>
+  </match>
+</fontconfig>
+
 EOF
 
 # ----------------------------------

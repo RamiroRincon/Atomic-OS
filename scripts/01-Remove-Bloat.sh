@@ -27,6 +27,7 @@ WANT_TO_REMOVE=(
   fedora-bookmarks
   fedora-chromium-config
   malcontent-control
+  google-noto-emoji-color-fonts
 )
 
 # 2. Filter the list
