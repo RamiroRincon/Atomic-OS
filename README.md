@@ -1,8 +1,35 @@
-This is a custom immutable Linux distribution based on Fedora Silverblue.
+# ⚛️ Atomic-OS
+### *Stability of a Server. Experience of a Mac. Core of a Gaming OS.*
 
-The main goal of this image is to provide a usabe out of the box desktop experience based in GNOME.
+Atomic-OS is a refined, **immutable** Linux distribution built on the rock-solid foundation of Fedora Silverblue. It is engineered for users who demand a premium, "out-of-the-box" GNOME experience without the setup fatigue.
 
-It also has necessary tweaks and improvements for gaming.
+
+
+---
+
+## 🌟 Why Atomic-OS?
+
+Most distributions give you the ingredients; **Atomic-OS gives you the meal.** By leveraging `bootc` technology, we treat the operating system like a container—offering a system that is virtually impossible to break and effortless to roll back.
+
+### 🎨 Refined Aesthetics
+Experience a desktop that feels expensive. We’ve integrated **Apple’s SF Pro fonts** and curated a GNOME environment that prioritizes clean lines, intuitive workflows, and high-fidelity typography.
+
+### 🎮 Gaming DNA
+Don't waste hours in the terminal. Atomic-OS comes pre-tuned for high-performance gaming. With essential kernel tweaks and performance optimizations baked in, your system is ready for Steam, Lutris, and beyond from the first boot.
+
+### 🛡️ Atomic Reliability
+Powered by an **immutable core**. Your system files are protected in a read-only "Gold Master" state. Update with confidence, knowing that a perfect snapshot of your OS is always one reboot away.
+
+---
+
+## 🚀 Key Features
+
+* **Zero-Config GNOME:** A curated selection of extensions and settings for maximum productivity.
+* **Modern App Stack:** Fully optimized for Flatpaks, ensuring your apps remain isolated and up-to-date.
+* **Performance First:** Optimized CPU scheduling and memory management for low-latency workloads.
+* **Developer Ready:** Includes the tools you need to start building right away, out of the box.
+
+---
 
 ## 📥 Download Atomic-OS
 
@@ -24,4 +51,4 @@ Get the latest stable build of Atomic-OS. Our images are built automatically via
 ![Build Status](https://img.shields.io/github/actions/workflow/status/RamiroRincon/Atomic-OS/build-disk.yml?branch=main&label=Latest%20Build)
 ![Storage](https://img.shields.io/badge/Hosted%20on-Cloudflare%20R2-orange)
 
-*Atomic-OS follows a Rolling Release model. These links always point to the most recent successful stable build.*
+*These links always point to the most recent successful stable build.*
