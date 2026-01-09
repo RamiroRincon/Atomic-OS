@@ -100,7 +100,7 @@ jobs:
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
-          # Sets the ZIP filename to "Atomic-OS (.iso).zip"
+          # Sets the downloaded ZIP filename to "Atomic-OS (.iso).zip"
           name: Atomic-OS (${{ matrix.disk-type == 'anaconda-iso' && '.iso' || matrix.disk-type }})
           path: ./dist/
           if-no-files-found: error
