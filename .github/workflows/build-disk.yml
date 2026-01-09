@@ -104,6 +104,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -120,13 +123,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.tag.outputs.release_tag }}
         run: |
-          # Create the release draft first
+          # 1. Create the Release
           gh release create "$TAG" \
             --title "Atomic-OS Build $TAG" \
-            --notes "Automated build for bare metal and VMs. Includes ISO for installation and QCOW2 for virtualization." \
+            --notes "Automated build of Atomic-OS. ISO for bare-metal, QCOW2 for Virtual Machines." \
             --prerelease
 
-          # Upload large assets using GH CLI (Supports files > 2GB)
+          # 2. Upload Large Assets (Using the robust gh stream)
           echo "Uploading ISO image..."
           gh release upload "$TAG" ./artifacts/Atomic-OS.iso --clobber
           
