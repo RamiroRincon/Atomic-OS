@@ -38,7 +38,7 @@ rpm-ostree install \
 rpm-ostree install \
     gnome-shell-extension-dash-to-dock
 
-# Install aditional RPM packages
+# Install aditional packages
 rpm-ostree install \
     gamemode \
     gamescope \
