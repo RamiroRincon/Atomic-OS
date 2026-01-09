@@ -90,15 +90,13 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           mkdir -p ./dist
-          # We check the directory structure of the output
-          ls -R ${{ steps.build.outputs.output-directory }}
-          
+          # Fixed paths based on your debug logs:
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
-            # Copying directly from the bootiso folder in the root output
-            cp ${{ steps.build.outputs.output-directory }}/bootiso/install.iso ./dist/Atomic-OS.iso
+            # ISO is in /output/anaconda-iso/bootiso/
+            cp ${{ steps.build.outputs.output-directory }}/anaconda-iso/bootiso/install.iso ./dist/Atomic-OS.iso
           else
-            # Copying the qcow2 file directly from the root output
-            cp ${{ steps.build.outputs.output-directory }}/disk.qcow2 ./dist/Atomic-OS.qcow2
+            # QCOW2 is in /output/qcow2/
+            cp ${{ steps.build.outputs.output-directory }}/qcow2/disk.qcow2 ./dist/Atomic-OS.qcow2
           fi
 
       - name: Upload disk images to Job Artifacts
