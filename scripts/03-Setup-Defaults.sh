@@ -44,6 +44,10 @@ sort-directories-first=true
 color-scheme='prefer-dark'
 show-battery-percentage=true
 enable-hot-corners=false
+font-name='SF Pro Display 11'
+document-font-name='SF Pro Text 11'
+monospace-font-name='SF Mono 10'
+titlebar-font='SF Pro Display Bold 11'
 
 # --- WORKSPACES ---
 [org/gnome/mutter]
