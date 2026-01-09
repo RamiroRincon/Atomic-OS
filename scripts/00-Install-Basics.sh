@@ -12,6 +12,7 @@ rpm-ostree install \
     gnome-backgrounds \
     gnome-backgrounds-extras \
     gnome-initial-setup \
+    gnome-software
     nautilus \
     mutter \
     xdg-desktop-portal-gnome \
