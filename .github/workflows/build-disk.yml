@@ -4,11 +4,6 @@ name: Build disk images
 on:
   workflow_dispatch:
     inputs:
-      upload-to-s3:
-        description: "Upload to S3"
-        required: false
-        default: false
-        type: boolean
       platform:
         required: true
         type: choice
@@ -18,10 +13,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - './disk_config/disk.toml'
-      - './disk_config/iso-gnome.toml'
-      - './.github/workflows/build-disk.yml'
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
@@ -76,7 +67,6 @@ jobs:
           additional-args: --use-librepo=True --rootfs xfs
 
       - name: Prepare Artifacts
-        if: github.event_name != 'pull_request'
         run: |
           mkdir -p ./dist
           OUTPUT_DIR="${{ steps.build.outputs.output-directory }}"
@@ -89,7 +79,6 @@ jobs:
           fi
 
       - name: Upload disk images to Job Artifacts
-        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: Atomic-OS-${{ matrix.disk-type }}
@@ -100,7 +89,6 @@ jobs:
     name: Create GitHub Release
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     permissions:
       contents: write
     steps:
@@ -118,20 +106,19 @@ jobs:
         id: tag
         run: echo "release_tag=$(date +'%Y.%m.%d-%H%M%S')" >> $GITHUB_OUTPUT
 
-      - name: Create Release and Upload Large Assets
+      - name: Create Release and Upload
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # IMPORTANT: We are now using your Personal Access Token to bypass the 2GB limit
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           TAG: ${{ steps.tag.outputs.release_tag }}
         run: |
-          # 1. Create the Release
           gh release create "$TAG" \
             --title "Atomic-OS Build $TAG" \
-            --notes "Automated build of Atomic-OS. ISO for bare-metal, QCOW2 for Virtual Machines." \
+            --notes "Automated build of Atomic-OS. Direct downloads for ISO and QCOW2." \
             --prerelease
 
-          # 2. Upload Large Assets
-          echo "Uploading ISO image..."
+          echo "Uploading ISO (One single file)..."
           gh release upload "$TAG" ./artifacts/Atomic-OS.iso --clobber
           
-          echo "Uploading QCOW2 image..."
+          echo "Uploading QCOW2 (One single file)..."
           gh release upload "$TAG" ./artifacts/Atomic-OS.qcow2 --clobber
