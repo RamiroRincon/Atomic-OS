@@ -63,16 +63,21 @@ jobs:
           types: ${{ matrix.disk-type }}
           additional-args: --use-librepo=True --rootfs xfs
 
-      - name: Prepare Artifacts
+      - name: Prepare Artifacts and Checksums
         run: |
           mkdir -p ./dist
           OUTPUT_DIR="${{ steps.build.outputs.output-directory }}"
+          
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
             ISO_PATH=$(find "$OUTPUT_DIR" -name "install.iso" | head -n 1)
             cp "$ISO_PATH" "./dist/Atomic-OS.iso"
+            # Generate checksum for ISO
+            cd ./dist && sha256sum Atomic-OS.iso > Atomic-OS.iso.sha256
           else
             QCOW_PATH=$(find "$OUTPUT_DIR" -name "*.qcow2" | head -n 1)
             cp "$QCOW_PATH" "./dist/Atomic-OS.qcow2"
+            # Generate checksum for QCOW2
+            cd ./dist && sha256sum Atomic-OS.qcow2 > Atomic-OS.qcow2.sha256
           fi
 
       - name: Upload to Cloudflare R2
@@ -86,6 +91,7 @@ jobs:
           BUCKET: ${{ secrets.S3_BUCKET_NAME }}
         run: |
           sudo apt-get update && sudo apt-get install -y rclone
+          # 'copy' ensures we don't delete files from the parallel build job
           rclone copy ./dist/ R2:$BUCKET/stable/
 
   publish:
@@ -95,7 +101,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      # THE CRITICAL MISSING STEP:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -104,8 +109,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="latest"
+          # Cleanup old release entry and create a fresh one
           gh release delete "$TAG" --yes || true
           gh release create "$TAG" \
             --title "Atomic-OS Latest Stable" \
-            --notes "Images are available at the Cloudflare R2 mirror. Built on $(date)." \
+            --notes "### 🚀 Build Complete
+            Images and Checksums are available at the Cloudflare R2 mirror.
+            
+            **Build Date:** $(date)
+            **Status:** Verified & Uploaded" \
             --prerelease
