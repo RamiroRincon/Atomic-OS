@@ -1,9 +1,5 @@
-# General Branding
-[customizations.bootloader]
-menu-entry-name = "Atomic-OS"
-
-# Set the OS Name and Hostname
-# Note the double brackets [[ ]] - this is required by the builder
+# Branding via file overrides
+# Note: [[customizations.files]] is an array of tables and requires double brackets.
 [[customizations.files]]
 path = "/etc/os-release"
 data = """
@@ -24,7 +20,7 @@ VARIANT_ID=workstation
 path = "/etc/hostname"
 data = "atomic-os"
 
-# The Installer Config
+# The Installer Config (Kickstart)
 [customizations.installer.kickstart]
 contents = """
 # Wipe existing partitions and initialize the disk
@@ -32,6 +28,7 @@ zerombr
 clearpart --all --initlabel
 
 # Create the standard partition layout automatically
+# This is the essential fix for the 'invalid magic number' error
 autopart --type=plain --fstype=xfs
 
 %post
