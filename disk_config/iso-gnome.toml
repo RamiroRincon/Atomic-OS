@@ -2,9 +2,11 @@
 [customizations.bootloader]
 menu-entry-name = "Atomic-OS"
 
-# Set the OS Name in /etc/os-release
-[customizations.files]
-"/etc/os-release" = """
+# Set the OS Name and Hostname
+# Note the double brackets [[ ]] - this is required by the builder
+[[customizations.files]]
+path = "/etc/os-release"
+data = """
 NAME="Atomic-OS"
 ID=atomic-os
 ID_LIKE=fedora
@@ -18,16 +20,22 @@ VARIANT="Workstation Edition"
 VARIANT_ID=workstation
 """
 
+[[customizations.files]]
+path = "/etc/hostname"
+data = "atomic-os"
+
 # The Installer Config
 [customizations.installer.kickstart]
 contents = """
-# Auto-configure storage
+# Wipe existing partitions and initialize the disk
 zerombr
 clearpart --all --initlabel
+
+# Create the standard partition layout automatically
 autopart --type=plain --fstype=xfs
 
 %post
-# Tell the system where to pull updates from after installation
+# Sync the system to your registry image
 bootc switch --mutate-in-place --transport registry ghcr.io/ramirorincon/atomic-os:latest
 %end
 """
