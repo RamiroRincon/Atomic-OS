@@ -68,15 +68,17 @@ jobs:
           mkdir -p ./dist
           OUTPUT_DIR="${{ steps.build.outputs.output-directory }}"
           
+          echo "Searching for build outputs in $OUTPUT_DIR..."
+          
           if [ "${{ matrix.disk-type }}" == "anaconda-iso" ]; then
             ISO_PATH=$(find "$OUTPUT_DIR" -name "install.iso" | head -n 1)
+            if [ -z "$ISO_PATH" ]; then echo "ERROR: ISO not found!"; exit 1; fi
             cp "$ISO_PATH" "./dist/Atomic-OS.iso"
-            # Generate checksum for ISO
             cd ./dist && sha256sum Atomic-OS.iso > Atomic-OS.iso.sha256
           else
             QCOW_PATH=$(find "$OUTPUT_DIR" -name "*.qcow2" | head -n 1)
+            if [ -z "$QCOW_PATH" ]; then echo "ERROR: QCOW2 not found!"; exit 1; fi
             cp "$QCOW_PATH" "./dist/Atomic-OS.qcow2"
-            # Generate checksum for QCOW2
             cd ./dist && sha256sum Atomic-OS.qcow2 > Atomic-OS.qcow2.sha256
           fi
 
@@ -91,8 +93,13 @@ jobs:
           BUCKET: ${{ secrets.S3_BUCKET_NAME }}
         run: |
           sudo apt-get update && sudo apt-get install -y rclone
-          # 'copy' ensures we don't delete files from the parallel build job
-          rclone copy ./dist/ R2:$BUCKET/stable/
+          
+          echo "--- Verifying local files before upload ---"
+          ls -lh ./dist
+          
+          echo "--- Executing rclone copy ---"
+          # -v flag added for verbose output to see transfer progress
+          rclone copy -v ./dist/ R2:$BUCKET/stable/
 
   publish:
     name: Finalize Release
@@ -109,13 +116,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="latest"
-          # Cleanup old release entry and create a fresh one
           gh release delete "$TAG" --yes || true
           gh release create "$TAG" \
             --title "Atomic-OS Latest Stable" \
-            --notes "### 🚀 Build Complete
-            Images and Checksums are available at the Cloudflare R2 mirror.
+            --notes "### 🚀 Build Verified
+            Images and Checksums are hosted on Cloudflare R2.
             
             **Build Date:** $(date)
-            **Status:** Verified & Uploaded" \
+            **Platform:** amd64" \
             --prerelease
