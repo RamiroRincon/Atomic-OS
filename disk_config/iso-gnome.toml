@@ -1,7 +1,33 @@
+# General Branding
+[customizations.bootloader]
+menu-entry-name = "Atomic-OS"
+
+# Set the OS Name in /etc/os-release
+[customizations.files]
+"/etc/os-release" = """
+NAME="Atomic-OS"
+ID=atomic-os
+ID_LIKE=fedora
+VERSION_ID=40
+PRETTY_NAME="Atomic-OS (Fedora Bootc)"
+ANSI_COLOR="0;34"
+LOGO=fedora-logo-icon
+CPE_NAME="cpe:/o:atomic-os:atomic-os:40"
+HOME_URL="https://github.com/ramirorincon/Atomic-OS"
+VARIANT="Workstation Edition"
+VARIANT_ID=workstation
+"""
+
+# The Installer Config
 [customizations.installer.kickstart]
 contents = """
+# Auto-configure storage
+zerombr
+clearpart --all --initlabel
+autopart --type=plain --fstype=xfs
 
 %post
+# Tell the system where to pull updates from after installation
 bootc switch --mutate-in-place --transport registry ghcr.io/ramirorincon/atomic-os:latest
 %end
 """
