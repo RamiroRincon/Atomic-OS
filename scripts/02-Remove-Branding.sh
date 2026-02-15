@@ -14,7 +14,6 @@ for pair in "${REPLACEMENTS[@]}"; do
 
     rpm-ostree override replace \
       --experimental \
-      --from repo=updates \
       "$old_pkg" \
       "$new_pkg" \
       || echo "Skipping branding replace: $old_pkg → $new_pkg (not present)"

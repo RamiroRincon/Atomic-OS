@@ -13,11 +13,13 @@ WANT_TO_REMOVE=(
   kmail
   akonadi-import-wizard
   kcm_akonadi
+  krfb
   knotes
   kontact
   kmahjongg
   kmines
   ksudoku
+  kbd-layout-viewer5
   kpat
   kolourpaint
   kwalletmanager5
@@ -30,12 +32,16 @@ WANT_TO_REMOVE=(
   plasma-welcome
   plasma-drkonqi
   plasma-welcome-fedora
+  btrfs-assistant-launcher
+  fcitx5
   gwenview
   okular
   dragon
   haruna
   htop
+  btop
   nvtop
+  gnome-disks
   fedora-bookmarks
   fedora-chromium-config
   google-noto-emoji-color-fonts
@@ -65,3 +71,8 @@ fi
 
 # 4. Cleanup
 rm -rf /etc/skel/.mozilla
+rm -f /usr/share/applications/bazzite-documentation.desktop
+rm -f /usr/share/applications/discourse.desktop
+rm -f /usr/share/applications/io.github.ublue_os.yafti_gtk.desktop
+rm -f /usr/share/applications/waydroid-container-restart.desktop
+rm -f /usr/share/applications/org.kde.kdeconnect.sms.desktop

@@ -59,6 +59,8 @@
 
 ### ----- THE ABOVE ONLY APPLIES FOR HEADLESS IMAGES ----- ###
 
+### -------------------------------------------------------------- ###
+
 ### ----- This applies to any KDE Plasma image ----- ###
 
 # 1. Add necessary repositories
@@ -85,5 +87,8 @@ rpm-ostree install \
     libvirt-daemon-kvm \
     qemu-kvm \
     virt-install
+
+# 3. Cleanup
+rm -rf /var/lib/zerotier-one/*
 
 ### ----- The above applies to any KDE Plasma image ----- ###
