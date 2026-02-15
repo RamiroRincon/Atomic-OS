@@ -14,6 +14,7 @@ WANT_TO_REMOVE=(
   akonadi-import-wizard
   kcm_akonadi
   krfb
+  krfb-libs
   knotes
   kontact
   kmahjongg
@@ -34,6 +35,7 @@ WANT_TO_REMOVE=(
   plasma-welcome-fedora
   btrfs-assistant-launcher
   fcitx5
+  fcitx5-mozc
   gwenview
   okular
   dragon
