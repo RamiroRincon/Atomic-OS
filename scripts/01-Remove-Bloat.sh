@@ -34,11 +34,31 @@ WANT_TO_REMOVE=(
   plasma-drkonqi
   plasma-welcome-fedora
   btrfs-assistant-launcher
+  fcitx5-libs
+  fcitx5-qt-libfcitx5qt6widgets
+  fcitx5-qt6
+  fcitx5-qt-qt6gui
+  fcitx5-gtk
+  fcitx5-gtk4
+  fcitx5-gtk3
+  fcitx5-qt-libfcitx5qtdbus
+  fcitx5-qt5
   fcitx5
-  fcitx5-mozc
   fcitx5-data
-  fcitx5-unikey
+  fcitx5-lua
+  fcitx5-chinese-addons
+  fcitx5-chinese-addons-data
+  fcitx5-m17n
+  fcitx5-mozc
   fcitx5-chewing
+  fcitx5-hangul
+  fcitx5-libthai
+  fcitx5-sayura
+  fcitx5-unikey
+  fcitx5-qt
+  fcitx5-configtool
+  fcitx5-gtk2
+  kcm-fcitx5
   gwenview
   okular
   dragon
