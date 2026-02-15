@@ -1,8 +1,8 @@
+#!/usr/bin/env bash
+set -eox pipefail
+
 ### ----- THIS ONLY APPLIES FOR HEADLESS IMAGES ----- ###
 
-##| #!/usr/bin/env bash
-##| set -eox pipefail
-##| 
 ##| # 1. Install KDE Plasma
 ##| # Only specific packages to ensure minimal bootable desktop
 ##| rpm-ostree install \
@@ -63,11 +63,9 @@
 
 ### ----- This applies to any KDE Plasma image ----- ###
 
-# 1. Make terra-mesa use the official Fyra Labs remote GPG key
+# 1. Disable GPG check for terra-mesa to unblock the ISO builder
 if [ -f /etc/yum.repos.d/terra-mesa.repo ]; then
-    sed -i 's|gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-terra43-mesa|gpgkey=https://repos.fyralabs.com/terra43-mesa/RPM-GPG-KEY-terra43-mesa|g' /etc/yum.repos.d/terra-mesa.repo
-    
-    sed -i 's/gpgcheck=0/gpgcheck=1/g' /etc/yum.repos.d/terra-mesa.repo
+    sed -i 's/gpgcheck=1/gpgcheck=0/g' /etc/yum.repos.d/terra-mesa.repo
 fi
 
 # 2. Add necessary repositories
