@@ -1,8 +1,8 @@
-# ⚛️ Atomic-OS
+# ⚛️ Custom Bazzite Image
 
 ## 📥 Download
 
-Get the latest stable build of Atomic-OS. Our images are built automatically via GitHub Actions and hosted on Cloudflare R2 for maximum download speed.
+Get the latest stable build of this image. Our images are built automatically via GitHub Actions and hosted on Cloudflare R2 for maximum download speed.
 
 | Platform | Format | Download Link |
 | :--- | :--- | :--- |

@@ -64,15 +64,13 @@
 # 1. Add necessary repositories
 
 ## ZeroTier
-mkdir -p /root/.gnupg
-curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import
-
 cat <<EOF > /etc/yum.repos.d/zerotier.repo
 [zerotier]
 name=ZeroTier, Inc. Fuel (Fedora \$releasever)
 baseurl=https://download.zerotier.com/redhat/fc/\$releasever
 enabled=1
 gpgcheck=1
+gpgkey=https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg
 EOF
 
 # 2. Install packages
