@@ -59,6 +59,7 @@ WANT_TO_REMOVE=(
   fcitx5-configtool
   fcitx5-gtk2
   kcm-fcitx5
+  libime
   gwenview
   okular
   dragon
