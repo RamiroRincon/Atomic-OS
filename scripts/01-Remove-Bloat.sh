@@ -36,6 +36,7 @@ WANT_TO_REMOVE=(
   btrfs-assistant-launcher
   fcitx5
   fcitx5-mozc
+  fcitx5-data
   gwenview
   okular
   dragon
