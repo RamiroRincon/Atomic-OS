@@ -1,3 +1,5 @@
+### ----- THIS ONLY APPLIES FOR HEADLESS IMAGES ----- ###
+
 ##| #!/usr/bin/env bash
 ##| set -eox pipefail
 ##| 
@@ -54,3 +56,28 @@
 ##| # Enable Services
 ##| systemctl enable sddm.service
 ##| systemctl set-default graphical.target
+
+### ----- THE ABOVE ONLY APPLIES FOR HEADLESS IMAGES ----- ###
+
+### ----- This applies to any KDE Plasma image ----- ###
+
+# 1. Add necessary repositories
+
+## ZeroTier
+curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \
+if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
+
+# 2. Install packages
+    
+## Gaming
+rpm-ostree install \
+    zerotier-one
+
+## Necessary for Virtualization
+rpm-ostree install \
+    libvirt-daemon-config-network \
+    libvirt-daemon-kvm \
+    qemu-kvm \
+    virt-install
+
+### ----- The above applies to any KDE Plasma image ----- ###

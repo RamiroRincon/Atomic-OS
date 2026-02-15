@@ -20,6 +20,16 @@ WANT_TO_REMOVE=(
   ksudoku
   kpat
   kolourpaint
+  kwalletmanager5
+  kwrite
+  kcharselect
+  kdebugsettings
+  kde-partitionmanager
+  kjournald
+  filelight
+  plasma-welcome
+  plasma-drkonqi
+  plasma-welcome-fedora
   gwenview
   okular
   dragon
@@ -29,6 +39,7 @@ WANT_TO_REMOVE=(
   fedora-bookmarks
   fedora-chromium-config
   google-noto-emoji-color-fonts
+  webapp-manager
 )
 
 # 2. Filter the list
