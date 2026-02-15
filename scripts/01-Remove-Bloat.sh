@@ -103,3 +103,7 @@ rm -f /usr/share/applications/discourse.desktop
 rm -f /usr/share/applications/io.github.ublue_os.yafti_gtk.desktop
 rm -f /usr/share/applications/waydroid-container-restart.desktop
 rm -f /usr/share/applications/org.kde.kdeconnect.sms.desktop
+rm -f /usr/share/applications/com.github.maliit.keyboard.desktop
+rm -f /usr/share/applications/gkbd-keyboard-display.desktop
+rm -f /usr/share/applications/kcm_keyboard.desktop
+rm -f /usr/share/applications/kcm_virtualkeyboard.desktop
