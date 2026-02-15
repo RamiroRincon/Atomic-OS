@@ -63,7 +63,14 @@
 
 ### ----- This applies to any KDE Plasma image ----- ###
 
-# 1. Add necessary repositories
+# 1. Make terra-mesa use the official Fyra Labs remote GPG key
+if [ -f /etc/yum.repos.d/terra-mesa.repo ]; then
+    sed -i 's|gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-terra43-mesa|gpgkey=https://repos.fyralabs.com/terra43-mesa/RPM-GPG-KEY-terra43-mesa|g' /etc/yum.repos.d/terra-mesa.repo
+    
+    sed -i 's/gpgcheck=0/gpgcheck=1/g' /etc/yum.repos.d/terra-mesa.repo
+fi
+
+# 2. Add necessary repositories
 
 ## ZeroTier
 cat <<EOF > /etc/yum.repos.d/zerotier.repo
@@ -75,7 +82,7 @@ gpgcheck=1
 gpgkey=https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg
 EOF
 
-# 2. Install packages
+# 3. Install packages
     
 ## Gaming
 rpm-ostree install \
@@ -88,7 +95,7 @@ rpm-ostree install \
     qemu-kvm \
     virt-install
 
-# 3. Cleanup
+# 4. Cleanup
 rm -rf /var/lib/zerotier-one/*
 
 ### ----- The above applies to any KDE Plasma image ----- ###
