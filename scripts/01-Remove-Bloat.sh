@@ -37,6 +37,8 @@ WANT_TO_REMOVE=(
   fcitx5
   fcitx5-mozc
   fcitx5-data
+  fcitx5-unikey
+  fcitx5-chewing
   gwenview
   okular
   dragon
