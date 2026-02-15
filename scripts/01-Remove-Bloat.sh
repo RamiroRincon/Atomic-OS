@@ -6,27 +6,28 @@ set -eox pipefail
 WANT_TO_REMOVE=(
   firefox
   firefox-langpacks
-  gnome-tour
-  gnome-clocks
-  gnome-maps
-  gnome-weather
-  gnome-contacts
-  gnome-calculator
-  gnome-characters
-  gnome-logs
-  gnome-font-viewer
-  gnome-disk-utility
-  gnome-extensions-app
-  loupe
-  snapshot
-  simple-scan
-  totem
-  yelp
+  elisa-player
+  khelpcenter
+  kaddressbook
+  korganizer
+  kmail
+  akonadi-import-wizard
+  kcm_akonadi
+  knotes
+  kontact
+  kmahjongg
+  kmines
+  ksudoku
+  kpat
+  kolourpaint
+  gwenview
+  okular
+  dragon
+  haruna
   htop
   nvtop
   fedora-bookmarks
   fedora-chromium-config
-  malcontent-control
   google-noto-emoji-color-fonts
 )
 

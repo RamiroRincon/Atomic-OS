@@ -1,115 +1,86 @@
 #!/usr/bin/env bash
 set -ouex pipefail
 
-echo "Applying custom system defaults..."
+echo "Applying custom system defaults for KDE Plasma..."
 
 # ----------------------------------
 # 1. FIX POWER PROFILE (System-Wide)
 # ----------------------------------
-# Force "Performance" mode via Tuned (Fedora 41+)
+# Kept identical as this is a system-level service (Tuned)
 mkdir -p /etc/tuned
 echo "throughput-performance" > /etc/tuned/active_profile
 
 # ----------------------------------
-# 2. CONFIGURE DCONF PROFILE
+# 2. KDE GLOBAL DEFAULTS (kdeglobals)
 # ----------------------------------
-# This tells GNOME to look at a "local" database for defaults
-mkdir -p /etc/dconf/profile
-cat <<EOF > /etc/dconf/profile/user
-user-db:user
-system-db:local
+# Controls Theme (Dark Mode), Fonts, and Icons
+mkdir -p /etc/xdg
+cat <<EOF > /etc/xdg/kdeglobals
+[General]
+ColorScheme=BreezeDark
+font=SF Pro Display,11,-1,5,50,0,0,0,0,0
+fixed=SF Mono,10,-1,5,50,0,0,0,0,0
+smallestReadableFont=SF Pro Text,8,-1,5,50,0,0,0,0,0
+toolBarFont=SF Pro Display,10,-1,5,50,0,0,0,0,0
+menuFont=SF Pro Display,10,-1,5,50,0,0,0,0,0
+windowTitleFont=SF Pro Display,11,-1,5,75,0,0,0,0,0
+
+[KDE]
+ShowNotificationsOnExternalScreens=true
 EOF
 
 # ----------------------------------
-# 3. SET DEFAULTS IN 'LOCAL' DB
+# 3. WINDOW MANAGER (kwinrc)
 # ----------------------------------
-mkdir -p /etc/dconf/db/local.d
+# Controls Workspaces, Window Buttons, and Placement
+cat <<EOF > /etc/xdg/kwinrc
+[Desktops]
+Number=2
+Rows=1
 
-# We write a keyfile here. Note that section headers use slashes (/), not dots.
-cat <<EOF > /etc/dconf/db/local.d/00-atomic-defaults
+[Windows]
+CenterByDefaultForce=true
 
-# --- NAUTILUS (FILES) ---
-[org/gnome/nautilus/preferences]
-default-folder-viewer='list-view'
-sort-directories-first=true
+[org.kde.kdecoration2]
+ButtonsOnLeft=XIA
+ButtonsOnRight=
+EOF
+# Note: IAX in KDE syntax stands for: I(Min), A(Max), X(Close)
 
-[org/gnome/nautilus/list-view]
-default-zoom-level='small'
+# ----------------------------------
+# 4. FILE MANAGER (dolphinrc)
+# ----------------------------------
+# Replaces Nautilus settings
+cat <<EOF > /etc/xdg/dolphinrc
+[DetailsMode]
+PreviewSize=16
 
-[org/gtk/settings/file-chooser]
-sort-directories-first=true
+[MainWindow]
+InvertSelection=false
 
-# --- INTERFACE & THEME ---
-[org/gnome/desktop/interface]
-color-scheme='prefer-dark'
-show-battery-percentage=true
-enable-hot-corners=false
-font-name='SF Pro Display 11'
-document-font-name='SF Pro Text 11'
-monospace-font-name='SF Mono 10'
-titlebar-font='SF Pro Display Bold 11'
-
-# --- WORKSPACES ---
-[org/gnome/mutter]
-dynamic-workspaces=false
-center-new-windows=true
-
-[org/gnome/desktop/wm/preferences]
-num-workspaces=2
-button-layout='appmenu:minimize,maximize,close'
-
-# --- INPUT ---
-[org/gnome/desktop/peripherals/touchpad]
-tap-to-click=true
-
-[org/gnome/desktop/peripherals/mouse]
-natural-scroll=false
-accel-profile='flat'
-
-# --- DESKTOP ICONS ---
-[org/gnome/shell/extensions/ding]
-show-home=true
-show-trash=true
-show-volumes=false
-
-# --- DASH TO DOCK ---
-[org/gnome/shell/extensions/dash-to-dock]
-transparency-mode='FIXED'
-background-opacity=0.25
-click-action='focus-minimize-or-previews'
-show-apps-at-top=true
-animate-show-apps=true
-disable-overview-on-startup=true
-dash-max-icon-size=64
-
-# --- EXTENSIONS ---
-[org/gnome/shell]
-enabled-extensions=['dash-to-dock@micxgx.gmail.com']
-disabled-extensions=['background-logo@fedorahosted.org']
-
-# --- LOGIN SCREEN ---
-[org/gnome/login-screen]
-logo=''
-
-# --- PRIVACY & UPDATES ---
-[org/gnome/desktop/privacy]
-remember-recent-files=false
-
-[org/gnome/software]
-download-updates=false
-
+[Settings]
+DefaultViewMode=1
+# 1 = List View, 0 = Icons, 2 = Compact
 EOF
 
 # ----------------------------------
-# 4. UPDATE DCONF DATABASE
+# 5. INPUT DEVICES (kcminputrc)
 # ----------------------------------
-# This compiles the text files into the binary database GNOME reads
-echo "Updating dconf..."
-dconf update
+# Controls Mouse & Touchpad
+cat <<EOF > /etc/xdg/kcminputrc
+[Mouse]
+AccelerationProfile=1
+# 1 = Flat profile
+NaturalScroll=false
+
+[Libinput][1267][12377][ELAN0501:00 04F3:3059 Touchpad]
+TapToClick=true
+EOF
 
 # ----------------------------------
-# 5. EMOJI FONT CONFIGURATION
+# 6. EMOJI FONT CONFIGURATION
 # ----------------------------------
+# Kept identical as fontconfig is desktop-agnostic
 echo "Configuring Apple Color Emoji as system default..."
 mkdir -p /etc/fonts/local.conf.d
 
@@ -123,3 +94,9 @@ cat <<EOF > /etc/fonts/local.conf.d/99-apple-emoji.conf
   </match>
 </fontconfig>
 EOF
+
+# ----------------------------------
+# 7. CLEANUP & PERMISSIONS
+# ----------------------------------
+# Ensure all files in /etc/xdg are readable
+chmod -R 644 /etc/xdg/*
