@@ -57,7 +57,8 @@ jobs:
         uses: osbuild/bootc-image-builder-action@main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
-          config-file: ./disk_config/iso-kde.toml
+          # Make .qcow2 image use "test-user.toml" configuration (.iso image uses the iso-kde.toml by default)
+          config-file: ${{ matrix.disk-type == 'qcow2' && './disk_config/test-user.toml' || './disk_config/iso-kde.toml' }}
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: ${{ matrix.disk-type }}

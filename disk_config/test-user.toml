@@ -1,0 +1,5 @@
+[[customizations.user]]
+name = "admin"
+# This is the hash for the password "admin"
+password = "$6$rounds=4096$salt$dwS6S59V3.YFw7p185.B4uGfW5K6.8y2v0"
+groups = ["wheel"]
